@@ -4,43 +4,19 @@
 
 No fluff. No endless nesting. Just what you need, where you need it.
 
+---
+
 ## Quick Start
 
-<div class="grid cards" markdown>
+| Section | What's inside |
+|---------|---------------|
+| ⚡ [**Quick Reference**](quick/index.md) | Payloads, one-liners, copy-paste ready |
+| 🎯 [**Vulnerabilities**](vulns/index.md) | Methodology by vuln type: Find → Exploit → Escalate |
+| 🔧 [**Tech Stack**](tech/index.md) | Stack-specific techniques: PHP, Node, AWS, GraphQL... |
+| 🔗 [**Chains**](chains/index.md) | Bug chains for maximum impact: SSRF→RCE, XSS→ATO... |
+| 📝 [**Reports**](reports/index.md) | Templates and impact wording that gets paid |
 
--   :material-lightning-bolt:{ .lg .middle } **Quick Reference**
-
-    ---
-
-    Payloads, one-liners, copy-paste ready.
-
-    [:octicons-arrow-right-24: Cheatsheets](quick/index.md)
-
--   :material-target:{ .lg .middle } **Vulnerabilities**
-
-    ---
-
-    Methodology by vuln type. Find → Exploit → Escalate.
-
-    [:octicons-arrow-right-24: Browse vulns](vulns/index.md)
-
--   :material-layers:{ .lg .middle } **Tech Stack**
-
-    ---
-
-    Stack-specific techniques. PHP, Node, AWS, GraphQL...
-
-    [:octicons-arrow-right-24: By technology](tech/index.md)
-
--   :material-link-variant:{ .lg .middle } **Chains**
-
-    ---
-
-    Bug chains for maximum impact. SSRF→RCE, XSS→ATO...
-
-    [:octicons-arrow-right-24: Exploit chains](chains/index.md)
-
-</div>
+---
 
 ## Philosophy
 
@@ -49,8 +25,10 @@ No fluff. No endless nesting. Just what you need, where you need it.
 - **Consistent structure** — every vuln page has the same sections
 - **Community-driven** — PRs welcome
 
+---
+
 ## Contributing
 
 Found something missing? Have a better payload?
 
-[:octicons-git-pull-request-24: Contribute](contributing.md)
+[**Contribute →**](contributing.md)
