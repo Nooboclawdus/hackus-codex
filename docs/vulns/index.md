@@ -8,24 +8,39 @@ Methodology guides by vulnerability type. Each section follows the same structur
 4. **Bypasses** — Evading protections
 5. **Escalate** — Increasing impact
 
-## Web Application
+---
 
-| Vulnerability | Description | Impact |
-|---------------|-------------|--------|
-| [XSS](xss/index.md) | Cross-Site Scripting | Session hijacking, phishing, keylogging |
-| [SSRF](ssrf/index.md) | Server-Side Request Forgery | Internal access, cloud metadata, RCE |
-| [IDOR](idor/index.md) | Insecure Direct Object Reference | Data access, privilege escalation |
+## Injection
 
-## Coming Soon
+| Vulnerability | Description | Typical Impact |
+|---------------|-------------|----------------|
+| [**XSS**](xss/index.md) | Execute JavaScript in victim's browser | Session hijacking, ATO, phishing |
+| **SQLi** *(coming soon)* | Inject SQL queries | Data theft, auth bypass, RCE |
 
-- SQL Injection
-- Authentication Bypass
-- Business Logic
-- Race Conditions
-- File Upload
-- XXE
-- Open Redirect
-- CSRF
+## Access Control
+
+| Vulnerability | Description | Typical Impact |
+|---------------|-------------|----------------|
+| [**IDOR**](idor/index.md) | Access objects via manipulated IDs | Data access, modification, deletion |
+| **Broken Auth** *(coming soon)* | Authentication flaws | Account takeover |
+
+## Server-Side
+
+| Vulnerability | Description | Typical Impact |
+|---------------|-------------|----------------|
+| [**SSRF**](ssrf/index.md) | Make server send requests | Internal access, cloud compromise, RCE |
+| **XXE** *(coming soon)* | XML external entity injection | File read, SSRF, DoS |
+
+---
+
+## Impact Quick Reference
+
+| Severity | Examples |
+|----------|----------|
+| **Critical** | RCE, mass ATO, admin compromise, cloud takeover |
+| **High** | ATO, sensitive data exposure, stored XSS on all users |
+| **Medium** | Self-XSS chains, limited IDOR, reflected XSS |
+| **Low** | Info disclosure, low-impact IDOR, verbose errors |
 
 ---
 

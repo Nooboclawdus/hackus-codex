@@ -12,9 +12,7 @@ No fluff. No endless nesting. Just what you need, where you need it.
 |---------|---------------|
 | ⚡ [**Quick Reference**](quick/index.md) | Payloads, one-liners, copy-paste ready |
 | 🎯 [**Vulnerabilities**](vulns/index.md) | Methodology by vuln type: Find → Exploit → Escalate |
-| 🔧 [**Tech Stack**](tech/index.md) | Stack-specific techniques: PHP, Node, AWS, GraphQL... |
 | 🔗 [**Chains**](chains/index.md) | Bug chains for maximum impact: SSRF→RCE, XSS→ATO... |
-| 📝 [**Reports**](reports/index.md) | Templates and impact wording that gets paid |
 
 ---
 

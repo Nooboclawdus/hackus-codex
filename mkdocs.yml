@@ -92,12 +92,8 @@ nav:
       - Escalation: vulns/ssrf/escalate.md
     - IDOR:
       - vulns/idor/index.md
-  - Tech Stack:
-    - tech/index.md
   - Chains:
     - chains/index.md
-  - Reports:
-    - reports/index.md
-    - Impact Wording: reports/impact.md
-    - Templates: reports/templates.md
+    - XSS to ATO: chains/xss-to-ato.md
+    - SSRF to RCE: chains/ssrf-to-rce.md
   - Contributing: contributing.md
