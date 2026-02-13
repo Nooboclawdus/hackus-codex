@@ -1,0 +1,316 @@
+/* Terminal vibes for Hackus Codex */
+
+:root {
+  /* Override Material colors */
+  --md-primary-fg-color: #00ff95;
+  --md-primary-fg-color--light: #00cc7a;
+  --md-primary-fg-color--dark: #00ff95;
+  --md-primary-bg-color: #0a0a0f;
+  --md-accent-fg-color: #00ff95;
+  --md-accent-fg-color--transparent: #00ff9520;
+  
+  /* Custom vars */
+  --term-bg: #0a0a0f;
+  --term-bg-card: #12121a;
+  --term-bg-code: #0d0d14;
+  --term-border: #1e1e2e;
+  --term-text: #a0a0b0;
+  --term-text-muted: #606070;
+  --term-text-bright: #e0e0f0;
+  --term-green: #00ff95;
+  --term-yellow: #f0c040;
+  --term-orange: #ff9f43;
+  --term-red: #ff5555;
+  --term-glow: #00ff9540;
+}
+
+/* Dark scheme overrides */
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color: var(--term-bg);
+  --md-default-fg-color: var(--term-text);
+  --md-default-fg-color--light: var(--term-text-muted);
+  --md-default-fg-color--lighter: var(--term-text-muted);
+  --md-default-fg-color--lightest: var(--term-border);
+  
+  --md-code-bg-color: var(--term-bg-code);
+  --md-code-fg-color: var(--term-text);
+  --md-code-hl-color: var(--term-glow);
+  
+  --md-typeset-color: var(--term-text);
+  --md-typeset-a-color: var(--term-green);
+  
+  --md-footer-bg-color: var(--term-bg-card);
+  --md-footer-bg-color--dark: var(--term-bg);
+}
+
+/* Font */
+body, .md-typeset {
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace !important;
+  font-size: 0.85rem;
+}
+
+/* Glowing headings */
+.md-typeset h1 {
+  color: var(--term-green) !important;
+  text-shadow: 0 0 30px var(--term-glow);
+  font-weight: 700;
+}
+
+.md-typeset h1::before {
+  content: "> ";
+  color: var(--term-text-muted);
+}
+
+.md-typeset h2 {
+  color: var(--term-text-bright) !important;
+  border-bottom: 1px solid var(--term-border);
+  padding-bottom: 8px;
+}
+
+.md-typeset h2::before {
+  content: "## ";
+  color: var(--term-green);
+  opacity: 0.6;
+}
+
+.md-typeset h3::before {
+  content: "### ";
+  color: var(--term-text-muted);
+}
+
+/* Links */
+.md-typeset a {
+  color: var(--term-green) !important;
+  text-decoration: none;
+}
+
+.md-typeset a:hover {
+  text-decoration: underline;
+  text-shadow: 0 0 10px var(--term-glow);
+}
+
+/* Code blocks - terminal style */
+.md-typeset pre {
+  background: var(--term-bg-card) !important;
+  border: 1px solid var(--term-border);
+  border-radius: 8px;
+}
+
+.md-typeset code {
+  background: var(--term-bg-card);
+  color: var(--term-green);
+  font-size: 0.85em;
+}
+
+.md-typeset pre code {
+  color: var(--term-text);
+}
+
+/* Inline code */
+.md-typeset :not(pre) > code {
+  background: var(--term-bg-card);
+  color: var(--term-green);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--term-border);
+}
+
+/* Tables */
+.md-typeset table:not([class]) {
+  font-size: 0.8rem;
+  border: 1px solid var(--term-border);
+}
+
+.md-typeset table:not([class]) th {
+  background: var(--term-bg-card);
+  color: var(--term-green);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.5px;
+}
+
+.md-typeset table:not([class]) td,
+.md-typeset table:not([class]) th {
+  border-color: var(--term-border);
+}
+
+.md-typeset table:not([class]) tr:hover td {
+  background: var(--term-bg-card);
+}
+
+/* Navigation */
+.md-nav__link {
+  color: var(--term-text) !important;
+}
+
+.md-nav__link:hover,
+.md-nav__link--active {
+  color: var(--term-green) !important;
+}
+
+.md-nav__item--active > .md-nav__link {
+  color: var(--term-green) !important;
+  font-weight: 600;
+}
+
+/* Sidebar */
+.md-sidebar {
+  background: var(--term-bg-card);
+}
+
+.md-sidebar__scrollwrap {
+  border-right: 1px solid var(--term-border);
+}
+
+/* Header */
+.md-header {
+  background: var(--term-bg-card) !important;
+  border-bottom: 1px solid var(--term-border);
+}
+
+.md-header__title {
+  color: var(--term-green) !important;
+  text-shadow: 0 0 20px var(--term-glow);
+  font-weight: 700;
+}
+
+/* Search */
+.md-search__input {
+  background: var(--term-bg) !important;
+  border: 1px solid var(--term-border);
+  color: var(--term-text);
+}
+
+.md-search__input:focus {
+  border-color: var(--term-green);
+  box-shadow: 0 0 0 3px var(--term-glow);
+}
+
+/* Admonitions - terminal colors */
+.md-typeset .admonition,
+.md-typeset details {
+  border: 1px solid var(--term-border);
+  background: var(--term-bg-card);
+}
+
+.md-typeset .admonition-title,
+.md-typeset summary {
+  background: var(--term-bg-code);
+  border-bottom: 1px solid var(--term-border);
+}
+
+/* Warning = yellow */
+.md-typeset .admonition.warning,
+.md-typeset details.warning {
+  border-color: var(--term-yellow);
+}
+
+.md-typeset .admonition.warning > .admonition-title,
+.md-typeset details.warning > summary {
+  background: rgba(240, 192, 64, 0.1);
+}
+
+/* Danger = orange/red */
+.md-typeset .admonition.danger,
+.md-typeset details.danger {
+  border-color: var(--term-orange);
+}
+
+/* Tip = green */
+.md-typeset .admonition.tip,
+.md-typeset details.tip {
+  border-color: var(--term-green);
+}
+
+.md-typeset .admonition.tip > .admonition-title {
+  background: rgba(0, 255, 149, 0.1);
+}
+
+/* Tabs */
+.md-typeset .tabbed-labels > label {
+  color: var(--term-text-muted);
+}
+
+.md-typeset .tabbed-labels > label:hover {
+  color: var(--term-text-bright);
+}
+
+.md-typeset .tabbed-labels > .tabbed-label--active {
+  color: var(--term-green);
+  border-color: var(--term-green);
+}
+
+/* Content area */
+.md-content {
+  background: var(--term-bg);
+}
+
+/* Footer */
+.md-footer {
+  background: var(--term-bg-card);
+  border-top: 1px solid var(--term-border);
+}
+
+/* Selection */
+::selection {
+  background: var(--term-green);
+  color: var(--term-bg);
+}
+
+/* Copy button glow on hover */
+.md-clipboard:hover {
+  color: var(--term-green);
+}
+
+/* Blockquotes */
+.md-typeset blockquote {
+  border-left: 3px solid var(--term-green);
+  color: var(--term-text-muted);
+}
+
+/* Lists */
+.md-typeset ul li::marker,
+.md-typeset ol li::marker {
+  color: var(--term-green);
+}
+
+/* Horizontal rules */
+.md-typeset hr {
+  border-color: var(--term-border);
+}
+
+/* TOC */
+.md-nav__link--passed {
+  color: var(--term-text-muted) !important;
+}
+
+/* Nav sections */
+.md-nav--primary .md-nav__title {
+  background: var(--term-bg-card);
+  color: var(--term-green);
+}
+
+/* Social links */
+.md-social__link svg {
+  fill: var(--term-text-muted);
+}
+
+.md-social__link:hover svg {
+  fill: var(--term-green);
+}
+
+/* Tags */
+.md-tag {
+  background: var(--term-bg-card);
+  border: 1px solid var(--term-border);
+  color: var(--term-green);
+}
+
+/* Keyboard shortcuts */
+.md-typeset kbd {
+  background: var(--term-bg-card);
+  border: 1px solid var(--term-border);
+  color: var(--term-text-bright);
+  box-shadow: 0 2px 0 var(--term-border);
+}

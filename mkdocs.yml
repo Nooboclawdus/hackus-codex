@@ -9,7 +9,7 @@ theme:
   palette:
     - scheme: slate
       primary: black
-      accent: light green
+      accent: lime
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
@@ -20,8 +20,11 @@ theme:
         icon: material/brightness-7
         name: Switch to dark mode
   font:
-    text: Inter
+    text: JetBrains Mono
     code: JetBrains Mono
+
+extra_css:
+  - stylesheets/terminal.css
   features:
     - navigation.instant
     - navigation.tracking
