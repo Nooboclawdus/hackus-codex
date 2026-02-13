@@ -252,10 +252,31 @@ body, .md-typeset {
   border-top: 1px solid var(--term-border);
 }
 
-/* Selection */
+/* Selection - force green */
 ::selection {
+  background: var(--term-green) !important;
+  color: var(--term-bg) !important;
+}
+
+::-moz-selection {
+  background: var(--term-green) !important;
+  color: var(--term-bg) !important;
+}
+
+.md-typeset ::selection {
+  background: var(--term-green) !important;
+  color: var(--term-bg) !important;
+}
+
+/* Search highlight */
+.md-search-result__meta {
   background: var(--term-green);
   color: var(--term-bg);
+}
+
+mark, .md-typeset mark {
+  background: var(--term-glow);
+  color: var(--term-text-bright);
 }
 
 /* Copy button glow on hover */
