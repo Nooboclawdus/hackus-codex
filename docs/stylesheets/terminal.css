@@ -358,3 +358,25 @@ mark, .md-typeset mark {
   color: var(--term-text-bright);
   box-shadow: 0 2px 0 var(--term-border);
 }
+
+/* Header logo/icon */
+.md-header__button.md-logo {
+  color: var(--term-green) !important;
+}
+
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  fill: var(--term-green) !important;
+  color: var(--term-green) !important;
+}
+
+/* TOC highlight */
+.md-nav__link:focus,
+.md-nav__link--active {
+  color: var(--term-green) !important;
+}
+
+/* Any remaining blue overrides */
+[data-md-color-accent="lime"] {
+  --md-accent-fg-color: #00ff95;
+}

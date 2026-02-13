@@ -37,7 +37,7 @@ extra_css:
     - content.code.copy
     - content.tabs.link
   icon:
-    logo: material/skull-crossbones
+    logo: material/console
     repo: fontawesome/brands/github
     admonition:
       note: material/note-text
