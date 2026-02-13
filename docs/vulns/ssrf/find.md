@@ -7,23 +7,26 @@
 - [ ] URL parameters (`url=`, `link=`, `src=`, `dest=`, `redirect=`, `uri=`, `path=`, `file=`)
 - [ ] Webhook configurations
 - [ ] File import from URL
-- [ ] PDF generators (HTML to PDF)
+- [ ] PDF generators (HTML to PDF - wkhtmltopdf, Puppeteer, TCPDF)
 - [ ] Image/avatar from URL
 - [ ] API integrations setup
 - [ ] URL preview/unfurl features (Slack-style)
 - [ ] Proxy/redirect endpoints
 - [ ] Document converters
 - [ ] Screenshot services
+- [ ] Link unfurling (favicons, OpenGraph)
 
 ### Often Overlooked
 
 - [ ] XML external entity (XXE → SSRF)
-- [ ] SVG file uploads with external references
+- [ ] SVG file uploads with external references (`xlink:href`)
 - [ ] RSS/Atom feed parsers
 - [ ] OAuth callback URLs
 - [ ] OpenID configuration URLs
-- [ ] SAML endpoints
+- [ ] SAML metadata endpoints
 - [ ] GraphQL queries with URL fields
+- [ ] Git URLs (project import)
+- [ ] Project import features
 
 ### Headers to Test
 
@@ -34,6 +37,8 @@ X-Original-URL: http://127.0.0.1
 X-Rewrite-URL: http://127.0.0.1
 Referer: http://127.0.0.1
 ```
+
+---
 
 ## Methodology
 
@@ -63,6 +68,11 @@ Check for:
 - User-Agent and other headers
 - Request timing
 
+**Detection Tools:**
+- Burp Collaborator / Interactsh — OOB callback detection
+- Param Miner — Header/parameter discovery
+- DNS: webhook.site, requestbin.net, canarytokens.org
+
 ### 3. Test Internal Targets
 
 ```bash
@@ -90,15 +100,18 @@ Check for:
 | **Partial response** | See status code or headers only | Medium - can port scan |
 | **Blind** | No response visible | Low-Medium - need out-of-band |
 | **Time-based** | Response time differs | Low - can infer open ports |
+| **Error-based** | Different error messages | Low-Medium - can detect services |
 
-## Bypass Techniques
+---
+
+## Bypass Techniques (Quick Reference)
 
 ### URL Parsing Confusion
 
 ```bash
 # @ trick
-http://attacker.com#@trusted.com
-http://trusted.com@attacker.com
+http://evil.com#@trusted.com
+http://trusted.com@evil.com
 
 # Domain confusion
 http://127.0.0.1.attacker.com
@@ -131,7 +144,7 @@ http://127.0.1
 2. First request resolves to allowed IP
 3. Second request (from server) resolves to internal IP
 
-Services: `rebind.it`, custom DNS
+Services: `1u.ms`, `rbndr.us`, custom DNS
 
 ### Protocol Smuggling
 
@@ -160,6 +173,8 @@ Then:
 ?url=http://your-server.com/redirect.php
 ```
 
+---
+
 ## Detection Tips
 
 ### Burp Suite
@@ -184,3 +199,5 @@ http:// https:// file:// gopher:// dict://
 ---
 
 Found a request going out? Move to [Exploitation](exploit.md).
+
+Need bypass techniques? Check [Bypasses](bypasses.md).

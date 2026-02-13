@@ -76,6 +76,7 @@ nav:
     - XSS Payloads: quick/xss.md
     - SSRF Payloads: quick/ssrf.md
     - SQLi Payloads: quick/sqli.md
+    - Auth Payloads: quick/auth.md
     - Bypasses: quick/bypasses.md
   - Vulnerabilities:
     - vulns/index.md
@@ -89,11 +90,46 @@ nav:
       - vulns/ssrf/index.md
       - Finding SSRF: vulns/ssrf/find.md
       - Exploitation: vulns/ssrf/exploit.md
+      - Bypasses: vulns/ssrf/bypasses.md
       - Escalation: vulns/ssrf/escalate.md
+    - SQLi:
+      - vulns/sqli/index.md
+      - Finding SQLi: vulns/sqli/find.md
+      - Exploitation: vulns/sqli/exploit.md
+      - Bypasses: vulns/sqli/bypasses.md
+      - Escalation: vulns/sqli/escalate.md
     - IDOR:
       - vulns/idor/index.md
+      - Finding IDOR: vulns/idor/find.md
+      - Exploitation: vulns/idor/exploit.md
+      - Bypasses: vulns/idor/bypasses.md
+      - Escalation: vulns/idor/escalate.md
+    - Auth:
+      - vulns/auth/index.md
+      - OAuth Attacks: vulns/auth/oauth.md
+      - JWT Attacks: vulns/auth/jwt.md
+      - 2FA Bypass: vulns/auth/2fa.md
+      - Session Attacks: vulns/auth/session.md
+    - Logic:
+      - vulns/logic/index.md
+      - Race Conditions: vulns/logic/race-conditions.md
+      - Rate Limiting: vulns/logic/rate-limiting.md
+      - Payment Bypass: vulns/logic/payment.md
+    - Client-Side:
+      - vulns/client-side/index.md
+      - CSRF: vulns/client-side/csrf.md
+      - Clickjacking: vulns/client-side/clickjacking.md
+      - postMessage: vulns/client-side/postmessage.md
+      - Prototype Pollution: vulns/client-side/prototype-pollution.md
+    - Infrastructure:
+      - vulns/infrastructure/index.md
+      - Subdomain Takeover: vulns/infrastructure/subdomain-takeover.md
+      - Cache Poisoning: vulns/infrastructure/cache-poisoning.md
+      - Request Smuggling: vulns/infrastructure/request-smuggling.md
   - Chains:
     - chains/index.md
     - XSS to ATO: chains/xss-to-ato.md
     - SSRF to RCE: chains/ssrf-to-rce.md
+    - OAuth to ATO: chains/oauth-to-ato.md
+    - Cache Poison to XSS: chains/cache-poison-to-xss.md
   - Contributing: contributing.md

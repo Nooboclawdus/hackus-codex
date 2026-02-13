@@ -19,21 +19,45 @@ Combining multiple vulnerabilities (or techniques) to achieve greater impact tha
 
 Turn XSS into full account compromise:
 
-- Cookie theft
+- Cookie/token theft
 - Password change via XSS
 - Email change + password reset
-- OAuth token theft
+- OAuth token exfiltration
+- Prototype pollution → XSS → ATO
 - Admin XSS → mass compromise
 
 ### [SSRF → RCE](ssrf-to-rce.md)
 
 From internal requests to code execution:
 
-- SSRF → Redis → webshell
+- SSRF → Redis → webshell/SSH key
 - SSRF → Docker API → host compromise
 - SSRF → FastCGI → PHP execution
 - SSRF → AWS metadata → cloud takeover
 - SSRF → Jenkins → CI/CD compromise
+- XXE → SSRF → RCE
+
+### [OAuth → Account Takeover](oauth-to-ato.md)
+
+From OAuth misconfigs to full account access:
+
+- redirect_uri bypass → token theft
+- Missing state → CSRF account linking
+- response_mode=web_message → postMessage theft
+- XSS on callback domain → code exfil
+- Pre-account takeover (classic-federated merge)
+- SSRF → cloud metadata → OAuth secrets
+
+### [Cache Poisoning → XSS](cache-poison-to-xss.md)
+
+From cache manipulation to persistent XSS:
+
+- Unkeyed header → cached XSS
+- Request smuggling → cache poison
+- CSPT + cache deception
+- Cookie poisoning → cached XSS
+- Fat GET → cache poison
+- Static extension abuse
 
 ## Quick Chain Ideas
 
@@ -45,23 +69,26 @@ From internal requests to code execution:
 | XSS | Password change endpoint | ATO |
 | IDOR on email | Password reset | ATO |
 | Info disclosure | Brute force | Account access |
+| postMessage | OAuth tokens | ATO |
 
 ### Escalation Chains
 
 | Start | Chain With | Result |
 |-------|------------|--------|
 | Low SSRF | Cloud metadata | IAM creds |
-| Read SSRF | Internal services | Data/RCE |
+| Read SSRF | Internal Redis | RCE |
 | XSS on user | Admin views report | Admin compromise |
 | Low IDOR | Sensitive endpoint | Critical data |
+| Cache poison | Static resources | Mass XSS |
 
 ### Logic Chains
 
 | Start | Chain With | Result |
 |-------|------------|--------|
+| Race condition | 2FA verification | Auth bypass |
 | Race condition | Payment flow | Financial impact |
 | IDOR | Invite system | Org takeover |
-| Parameter tampering | Discount codes | Financial impact |
+| Prototype pollution | XSS gadget | DOM XSS |
 
 ## Chain Methodology
 
@@ -77,6 +104,8 @@ For each bug, ask:
 - User → Admin
 - External → Internal
 - Unauthenticated → Authenticated
+- Client → Server
+- Cache → Origin
 
 ### 3. Connect the Dots
 
@@ -97,10 +126,18 @@ Always show:
 
 ---
 
-## Coming Soon
+## Cross-Signal Connections
 
-- IDOR → Full Account Takeover
-- CORS Misconfiguration Chains
-- Cache Poisoning → XSS
-- OAuth Misconfig Chains
-- Race Condition Exploits
+Key chains from technique analysis:
+
+| Chain | Files Involved |
+|-------|---------------|
+| SSRF → Cloud → OAuth | ssrf/bypass + cloud-metadata + auth/oauth |
+| Prototype Pollution → XSS | client-side/prototype-pollution + xss/dom |
+| Race → 2FA Bypass | logic/race-conditions + auth/2fa-bypass |
+| Cache → CSPT → ATO | cache-poisoning + auth/session |
+| CORS + Subdomain → Theft | cors + subdomain-takeover + session |
+| Request Smuggling → Cache → XSS | request-smuggling + cache-poisoning + xss |
+
+---
+*See [Quick Payloads](../quick/index.md) for copy-paste ready exploits.*
