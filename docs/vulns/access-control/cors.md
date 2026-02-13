@@ -159,7 +159,7 @@ Content-Type: text/plain
 - **CORScanner** — Automated CORS testing
 - **Corsy** — CORS misconfiguration scanner
 - **Singularity** — DNS rebinding tool
-- **Burp Suite** — Manual Origin manipulation
+- **Caido** — Manual Origin manipulation
 
 ## Checklist
 

@@ -74,5 +74,5 @@ admin' OR '1'='1
 ## Tools
 
 - **sqlmap** — `sqlmap -u "URL?id=1" --dbs`
-- **Burp Suite** — Manual testing with Repeater
+- **Caido** — Manual testing with Repeater
 - **Havij** — GUI-based SQL injection

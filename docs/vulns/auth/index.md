@@ -47,7 +47,7 @@ Host: evil.com
 
 ## Common Tools
 
-- **Burp Suite** — Intercept auth flows
+- **Caido** — Intercept auth flows
 - **jwt_tool** — JWT testing and cracking
 - **SAML Raider** — SAML attacks (Burp extension)
 - **hashcat** — Crack JWT secrets

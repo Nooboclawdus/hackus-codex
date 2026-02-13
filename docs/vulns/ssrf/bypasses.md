@@ -121,7 +121,7 @@ http://127.0.0.1.sslip.io/
 # Custom subdomains pointing to localhost
 http://localtest.me/              # → 127.0.0.1
 http://bugbounty.dod.network/     # → 127.0.0.2
-http://spoofed.burpcollaborator.net/  # Configurable
+http://spoofed.interact.sh/  # Configurable
 ```
 
 ### DNS Rebinding

@@ -248,6 +248,6 @@ token=md5(email)
 
 ## Tools
 
-- **Burp Suite** — Cookie editor and analysis
+- **Caido** — Cookie editor and analysis
 - **EditThisCookie** — Browser extension
 - **Browser DevTools** — Application → Cookies

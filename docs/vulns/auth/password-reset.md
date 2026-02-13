@@ -174,7 +174,7 @@ X-Real-IP: random_ip
 
 - **Burp Sequencer** — Token entropy analysis
 - **guidtool** — UUID v1 prediction
-- **Burp Collaborator** — Detect token leakage
+- **Interactsh** — Detect token leakage
 - **Turbo Intruder** — High-speed OTP brute force
 
 ## Checklist

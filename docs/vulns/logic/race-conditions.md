@@ -53,7 +53,7 @@ def queueRequests(target, wordlists):
     engine.openGate('race1')
 ```
 
-**Burp Suite:** Repeater → Select requests → Right-click → "Send group in parallel"
+**Caido:** Repeater → Select requests → Right-click → "Send group in parallel"
 
 ### HTTP/1.1 Last-Byte Sync
 
@@ -139,7 +139,7 @@ for i in range(50):
 | Tool | Use Case |
 |------|----------|
 | **Turbo Intruder** | HTTP/2 single-packet, custom gates |
-| **Burp Repeater** | "Send group in parallel" |
+| **Caido Replay** | "Send group in parallel" |
 | **H2SpaceX** | Python HTTP/2 last-byte sync |
 
 **Browser DevTools Quick Test:**

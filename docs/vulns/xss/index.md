@@ -80,6 +80,6 @@ Where does your input land?
 | **dalfox** | Parameter analysis and XSS scanner |
 | **XSSer** | Automatic XSS detection |
 | **DOM Invader** | Burp extension for DOM XSS |
-| **Burp Suite** | Intruder with XSS wordlists |
+| **Caido** | Intruder with XSS wordlists |
 
 If basic payloads fail, check [Bypasses](bypasses.md).

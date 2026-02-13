@@ -26,7 +26,7 @@ document.querySelector('meta[name="csrf-token"]')
 ```
 
 **Quick Test:**
-1. Capture request in Burp
+1. Capture request in Caido
 2. Right-click → Engagement tools → Generate CSRF PoC
 3. Test if action succeeds without token
 
@@ -167,7 +167,7 @@ If CSRF uses double-submit (cookie = form value):
 
 | Tool | Purpose |
 |------|---------|
-| **Burp Suite** | Generate CSRF PoC |
+| **Caido** | Generate CSRF PoC |
 | **XSRFProbe** | CSRF scanner |
 
 **Quick PoC Generator:**

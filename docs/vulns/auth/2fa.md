@@ -242,6 +242,6 @@ session2 = login(creds)  # Gets 2FA block + token B
 
 ## Tools
 
-- **Burp Suite** — Intercept and modify responses
+- **Caido** — Intercept and modify responses
 - **Turbo Intruder** — High-speed brute force with race conditions
 - **ffuf** — Fast OTP brute forcing

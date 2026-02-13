@@ -71,6 +71,6 @@ https://target/?__proto__[test]=polluted
 
 | Tool | Purpose |
 |------|---------|
-| Burp Suite | Generate CSRF PoC, intercept messages |
+| Caido | Generate CSRF PoC, intercept messages |
 | DOM Invader | Automated client-side testing |
 | Browser DevTools | Event listeners, postMessage inspection |

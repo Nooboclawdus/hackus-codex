@@ -209,7 +209,7 @@ Object.assign(user, req.body);
 - **Param Miner** (Burp) — Discover hidden parameters
 - **Arjun** — Parameter discovery
 - **ParamSpider** — Mine parameters from web archives
-- **Burp Intruder** — Fuzz parameter names
+- **Caido Automate** — Fuzz parameter names
 
 ## Checklist
 

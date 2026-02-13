@@ -39,7 +39,7 @@ echo "https://target.com/search?q=xss123test" | httpx -match-string "xss123test"
 curl -I "https://target.com/redirect?url=https://evil.com" 2>/dev/null | grep -i location
 
 # SSRF with collaborator
-curl "https://target.com/fetch?url=http://YOUR-ID.burpcollaborator.net"
+curl "https://target.com/fetch?url=http://YOUR-ID.oast.fun"
 ```
 
 ### Headers to Test

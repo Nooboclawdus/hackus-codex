@@ -69,7 +69,7 @@ Check for:
 - Request timing
 
 **Detection Tools:**
-- Burp Collaborator / Interactsh — OOB callback detection
+- Interactsh / Interactsh — OOB callback detection
 - Param Miner — Header/parameter discovery
 - DNS: webhook.site, requestbin.net, canarytokens.org
 
@@ -177,17 +177,17 @@ Then:
 
 ## Detection Tips
 
-### Burp Suite
+### Caido
 
 1. Send all URL parameters to Collaborator
-2. Use Burp Scanner's SSRF checks
+2. Use automated scanner's SSRF checks
 3. Check for DNS vs HTTP interactions
 
 ### Manual Testing
 
 ```bash
 # Check if filtering is client-side or server-side
-# Client-side: JavaScript validation, can bypass with Burp
+# Client-side: JavaScript validation, can bypass with Caido
 
 # Check what protocols are allowed
 http:// https:// file:// gopher:// dict://

@@ -177,7 +177,7 @@ curl -X POST /checkout -d 'price=-100'
 
 | Tool | Purpose |
 |------|---------|
-| **Burp Suite** | Intercept, tamper parameters |
+| **Caido** | Intercept, tamper parameters |
 | **Param Miner** | Hidden parameter discovery |
 | **Intruder** | Plan ID/price enumeration |
 

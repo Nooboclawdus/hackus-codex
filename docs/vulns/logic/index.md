@@ -55,6 +55,6 @@ Step 2: MFA verification (flag set)
 
 | Tool | Purpose |
 |------|---------|
-| Burp Suite Repeater | "Send group in parallel" for race conditions |
+| Caido Repeater | "Send group in parallel" for race conditions |
 | Turbo Intruder | HTTP/2 single-packet attacks |
 | Custom scripts | Async request batching |

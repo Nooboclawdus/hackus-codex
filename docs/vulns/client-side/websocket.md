@@ -166,7 +166,7 @@ websocat wss://target.com/socket
 echo '{"type":"ping"}' | websocat wss://target.com/socket
 ```
 
-**Burp Suite:**
+**Caido:**
 - Proxy → WebSocket history
 - Repeater supports WebSocket
 - Intercept and modify messages

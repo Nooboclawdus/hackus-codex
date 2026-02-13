@@ -53,7 +53,7 @@ http://127.0.0.1.nip.io/
 http://127-0-0-1.sslip.io/
 http://169.254.169.254.nip.io/
 http://localtest.me/
-http://spoofed.burpcollaborator.net/
+http://spoofed.interact.sh/
 ```
 
 ## Cloud Metadata

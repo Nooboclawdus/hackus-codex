@@ -52,7 +52,7 @@ http://169.254.169.254/metadata/instance   # Azure
 http://100.100.100.200/                    # Alibaba (often bypasses filters!)
 
 # Blind detection
-http://your-burp-collaborator.net
+http://YOUR-ID.oast.fun
 ```
 
 ## Protocol Handlers
@@ -98,7 +98,7 @@ http://127.0.0.1:8080/actuator/env    # Spring Boot
 | [SSRFmap](https://github.com/swisskyrepo/SSRFmap) | Automated SSRF exploitation |
 | [Gopherus](https://github.com/tarunkant/Gopherus) | Gopher payload generator |
 | [Interactsh](https://github.com/projectdiscovery/interactsh) | OOB callback server |
-| [Burp Collaborator Everywhere](https://portswigger.net) | Header injection detection |
+| [Interactsh Everywhere](https://portswigger.net) | Header injection detection |
 
 ## Real-World Examples
 

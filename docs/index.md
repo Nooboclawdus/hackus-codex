@@ -16,17 +16,8 @@ No fluff. No endless nesting. Just what you need, where you need it.
 
 ---
 
-## Philosophy
+## Credits
 
-- **2 clicks max** to any content
-- **Quick vs Deep** — payloads separate from methodology
-- **Consistent structure** — every vuln page has the same sections
-- **Community-driven** — PRs welcome
+This knowledge base is heavily inspired by [HackTricks](https://book.hacktricks.xyz/). Many payloads and techniques documented here can also be found there — I've consolidated and reorganized them for my own workflow.
 
----
-
-## Contributing
-
-Found something missing? Have a better payload?
-
-[**Contribute →**](contributing.md)
+If you want the full depth, check out HackTricks. This is my streamlined reference.
