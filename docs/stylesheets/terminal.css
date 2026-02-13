@@ -416,3 +416,35 @@ mark, .md-typeset mark {
 .md-tabs__link--active::after {
   background: #00ff95 !important;
 }
+
+/* NUCLEAR option for selection */
+*, *::before, *::after {
+  --md-accent-fg-color: #00ff95 !important;
+}
+
+html, html *, html *::selection,
+body, body *, body *::selection,
+div, div::selection,
+span, span::selection,
+p, p::selection,
+a, a::selection,
+code, code::selection,
+pre, pre::selection,
+pre *, pre *::selection,
+.md-typeset, .md-typeset *,
+.md-typeset *::selection,
+.md-content, .md-content *,
+.md-content *::selection,
+.md-nav, .md-nav *,
+.md-nav *::selection,
+article, article *,
+article *::selection {
+  --selection-bg: #00ff95 !important;
+  --selection-fg: #0a0a0f !important;
+}
+
+/* Brute force selection */
+::selection { background-color: #00ff95 !important; color: #0a0a0f !important; }
+::-moz-selection { background-color: #00ff95 !important; color: #0a0a0f !important; }
+*::selection { background-color: #00ff95 !important; color: #0a0a0f !important; }
+*::-moz-selection { background-color: #00ff95 !important; color: #0a0a0f !important; }
