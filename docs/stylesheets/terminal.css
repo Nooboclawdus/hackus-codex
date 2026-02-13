@@ -380,3 +380,39 @@ mark, .md-typeset mark {
 [data-md-color-accent="lime"] {
   --md-accent-fg-color: #00ff95;
 }
+
+/* Force green on ALL nav links */
+.md-nav__link[href],
+.md-nav__link:hover,
+.md-nav__link:focus,
+.md-nav__link--active,
+.md-nav__item--active > .md-nav__link,
+.md-nav--secondary .md-nav__link--active,
+[data-md-color-accent] .md-nav__link--active,
+.md-nav__link[data-md-state="current"] {
+  color: #00ff95 !important;
+}
+
+/* Sidebar TOC current item */
+.md-sidebar--secondary .md-nav__link--active {
+  color: #00ff95 !important;
+}
+
+/* Override Material accent completely */
+:root,
+[data-md-color-scheme="slate"],
+[data-md-color-accent="lime"],
+[data-md-color-accent] {
+  --md-accent-fg-color: #00ff95 !important;
+  --md-accent-fg-color--transparent: #00ff9520 !important;
+}
+
+/* Tab indicators */
+.md-tabs__link--active,
+.md-tabs__link:hover {
+  color: #00ff95 !important;
+}
+
+.md-tabs__link--active::after {
+  background: #00ff95 !important;
+}
