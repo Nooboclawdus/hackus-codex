@@ -164,6 +164,10 @@ nav:
       - Prompt Injection: vulns/ai-security/prompt-injection.md
       - Agent Hijacking: vulns/ai-security/agent-hijacking.md
       - Data Poisoning: vulns/ai-security/data-poisoning.md
+  - Frameworks:
+    - frameworks/index.md
+    - FastAPI: frameworks/fastapi.md
+    - Next.js: frameworks/nextjs.md
   - Chains:
     - chains/index.md
     - XSS to ATO: chains/xss-to-ato.md
