@@ -9,6 +9,9 @@ Copy-paste ready payloads and one-liners. No explanation, just the goods.
 | [XSS Payloads](xss.md) | Payloads by context (HTML, JS, attributes) |
 | [SSRF Payloads](ssrf.md) | Protocols, bypasses, cloud metadata |
 | [SQLi Payloads](sqli.md) | By database type |
+| [IDOR Payloads](idor.md) | ID manipulation, UUID attacks, parameter pollution |
+| [Auth Payloads](auth.md) | OAuth, JWT, 2FA/MFA bypasses |
+| [LLM Payloads](llm.md) | Prompt injection, jailbreaks, AI bypasses |
 | [Bypasses](bypasses.md) | WAF bypasses, filter evasion |
 
 ## One-Liners

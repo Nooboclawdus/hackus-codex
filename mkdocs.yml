@@ -109,11 +109,16 @@ nav:
   - Home: index.md
   - 🎯 Quick Ref:
     - quick/index.md
-    - XSS Payloads: quick/xss.md
-    - SQLi Payloads: quick/sqli.md
-    - SSRF Payloads: quick/ssrf.md
-    - Auth Payloads: quick/auth.md
-    - LLM/AI Payloads: quick/llm.md
+    - XSS: quick/xss.md
+    - SQLi: quick/sqli.md
+    - SSRF: quick/ssrf.md
+    - SSTI: quick/ssti.md
+    - LFI: quick/lfi.md
+    - NoSQL: quick/nosql.md
+    - IDOR: quick/idor.md
+    - Auth/JWT/OAuth: quick/auth.md
+    - LLM/AI: quick/llm.md
+    - Deserialization: quick/deserialization.md
     - Bypasses: quick/bypasses.md
   - 🔥 Vulnerabilities:
     - vulns/index.md
