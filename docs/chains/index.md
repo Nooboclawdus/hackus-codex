@@ -53,6 +53,39 @@ From OAuth misconfigs to full account access:
 - Pre-account takeover (classic-federated merge)
 - SSRF → cloud metadata → OAuth secrets
 
+### [SQLi → RCE](sqli-to-rce.md)
+
+From database injection to code execution:
+
+- MySQL INTO OUTFILE → webshell
+- MSSQL xp_cmdshell → direct command exec
+- PostgreSQL COPY PROGRAM → direct command exec
+- Oracle Java/DBMS_SCHEDULER → code execution
+- NTLM hash theft → relay → lateral movement
+- UDF injection → custom functions → RCE
+
+### [Prototype Pollution → XSS/RCE](prototype-pollution-to-rce.md)
+
+From JavaScript prototype pollution to code execution:
+
+- Client-side PP → DOM gadgets → XSS
+- Server-side PP → NODE_OPTIONS → RCE
+- PP → Template engines (EJS, Pug, Handlebars) → RCE
+- PP → child_process gadgets → RCE
+- PP → require() path hijacking → RCE
+- Lodash/jQuery merge vulnerabilities
+
+### [Race Condition → Business Logic Bypass](race-to-bypass.md)
+
+Exploiting timing windows to break application state:
+
+- Limit overrun (coupons, gift cards, votes)
+- Balance manipulation (double-spend, overdraw)
+- State confusion (password reset token swap)
+- 2FA bypass via session race window
+- HTTP/2 single-packet attack technique
+- Partial construction races (empty token auth)
+
 ### [Cache Poisoning → XSS](cache-poison-to-xss.md)
 
 From cache manipulation to persistent XSS:
@@ -63,6 +96,17 @@ From cache manipulation to persistent XSS:
 - Cookie poisoning → cached XSS
 - Fat GET → cache poison
 - Static extension abuse
+
+### [XXE → SSRF → Internal Access](xxe-to-ssrf.md)
+
+Weaponizing XML parsers to reach internal infrastructure:
+
+- XXE → internal port scanning
+- XXE → AWS/GCP/Azure metadata → cloud takeover
+- XXE → internal services (Redis, Elasticsearch, K8s)
+- Blind XXE with OOB exfiltration → SSRF
+- SVG/DOCX upload → XXE → SSRF
+- XInclude attacks when DOCTYPE is blocked
 
 ## Quick Chain Ideas
 
@@ -85,6 +129,9 @@ From cache manipulation to persistent XSS:
 | XSS on user | Admin views report | Admin compromise |
 | Low IDOR | Sensitive endpoint | Critical data |
 | Cache poison | Static resources | Mass XSS |
+| SQLi (MySQL) | FILE priv + web root | Webshell RCE |
+| SQLi (MSSQL) | xp_cmdshell enabled | Direct RCE |
+| SQLi (PostgreSQL) | superuser role | COPY PROGRAM RCE |
 
 ### Logic Chains
 
@@ -139,10 +186,16 @@ Key chains from technique analysis:
 |-------|---------------|
 | SSRF → Cloud → OAuth | ssrf/bypass + cloud-metadata + auth/oauth |
 | Prototype Pollution → XSS | client-side/prototype-pollution + xss/dom |
-| Race → 2FA Bypass | logic/race-conditions + auth/2fa-bypass |
+| Prototype Pollution → RCE | chains/prototype-pollution-to-rce + child_process |
+| Race → 2FA Bypass | chains/race-to-bypass + auth/2fa-bypass |
+| Race → Double-Spend | chains/race-to-bypass + financial-logic |
+| Race → Password Reset ATO | chains/race-to-bypass + auth/password-reset |
 | Cache → CSPT → ATO | cache-poisoning + auth/session |
 | CORS + Subdomain → Theft | cors + subdomain-takeover + session |
 | Request Smuggling → Cache → XSS | request-smuggling + cache-poisoning + xss |
+| SQLi → File Write → RCE | sql-injection + file-upload + webshell |
+| SQLi → NTLM Theft → Relay | sql-injection + ntlm + lateral-movement |
+| XXE → SSRF → Cloud Takeover | xxe + ssrf/bypass + cloud-metadata |
 
 ---
 *See [Quick Payloads](../quick/index.md) for copy-paste ready exploits.*

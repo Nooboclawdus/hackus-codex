@@ -195,9 +195,15 @@ nav:
   - ⛓️ Chains:
     - chains/index.md
     - XSS to ATO: chains/xss-to-ato.md
+    - IDOR to ATO: chains/idor-to-ato.md
     - SSRF to RCE: chains/ssrf-to-rce.md
     - OAuth to ATO: chains/oauth-to-ato.md
     - Cache to XSS: chains/cache-poison-to-xss.md
+    - XXE to SSRF: chains/xxe-to-ssrf.md
+    - SQLi to RCE: chains/sqli-to-rce.md
+    - Prototype Pollution to RCE: chains/prototype-pollution-to-rce.md
+    - Race to Bypass: chains/race-to-bypass.md
+    - Self-XSS Escalation: chains/self-xss-escalation.md
   - 🛠️ Frameworks:
     - frameworks/index.md
     - FastAPI: frameworks/fastapi.md
