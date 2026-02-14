@@ -8,19 +8,19 @@ theme:
   name: material
   palette:
     - scheme: slate
-      primary: black
+      primary: custom
       accent: lime
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
     - scheme: default
-      primary: grey
+      primary: teal
       accent: green
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
   font:
-    text: JetBrains Mono
+    text: Inter
     code: JetBrains Mono
   features:
     - navigation.instant
