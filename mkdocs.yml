@@ -168,6 +168,7 @@ nav:
     - frameworks/index.md
     - FastAPI: frameworks/fastapi.md
     - Next.js: frameworks/nextjs.md
+    - BaaS (Supabase/Firebase): frameworks/baas.md
   - Chains:
     - chains/index.md
     - XSS to ATO: chains/xss-to-ato.md
