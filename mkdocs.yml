@@ -1,8 +1,6 @@
 site_name: Hackus Codex
 site_description: A clean, practical knowledge base for bug bounty hunters and pentesters
 site_url: https://hackus-codex.online
-repo_url: https://github.com/Nooboclawdus/hackus-codex
-repo_name: hackus-codex
 
 theme:
   name: material
@@ -105,11 +103,7 @@ extra:
     client-side: client-side
     logic: logic
     infra: infra
-  social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/Nooboclawdus
-    - icon: fontawesome/brands/twitter
-      link: https://twitter.com/AseR3x
+  generator: false
 
 nav:
   - Home: index.md
