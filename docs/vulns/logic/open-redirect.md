@@ -173,7 +173,7 @@ ffuf -u "https://target.com/login?FUZZ=https://evil.com" -w redirect_params.txt
 
 **Scanner:**
 - **OpenRedireX** — https://github.com/devanshbatham/OpenRedireX
-- **Caido** — Intruder with redirect payloads
+- **Caido** — Automate with redirect payloads
 - **Gf patterns** — Extract redirect parameters
 
 ## Impact Escalation
