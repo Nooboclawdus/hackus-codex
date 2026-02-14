@@ -119,6 +119,7 @@ nav:
     - SQLi Payloads: quick/sqli.md
     - SSRF Payloads: quick/ssrf.md
     - Auth Payloads: quick/auth.md
+    - LLM/AI Payloads: quick/llm.md
     - Bypasses: quick/bypasses.md
   - 🔥 Vulnerabilities:
     - vulns/index.md

