@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # Open Redirect
 
 Open redirects allow attackers to redirect users to malicious domains via trusted URLs. Critical when chained with OAuth for token theft.

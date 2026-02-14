@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # Rate Limit Bypass
 
 Evade request throttling via IP spoofing headers, parameter manipulation, endpoint variations, or protocol abuse.

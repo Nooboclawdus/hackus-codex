@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # Race Conditions
 
 Exploit timing gaps between check and use operations by sending concurrent requests.

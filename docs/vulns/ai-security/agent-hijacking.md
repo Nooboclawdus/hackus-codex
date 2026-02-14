@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # Agent Hijacking
 
 Exploiting autonomous AI agents to perform unintended actions. As AI agents gain more capabilities, this becomes increasingly critical.

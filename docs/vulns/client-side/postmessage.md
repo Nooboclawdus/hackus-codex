@@ -1,3 +1,9 @@
+---
+tags:
+  - medium
+  - client-side
+---
+
 # PostMessage Vulnerabilities
 
 Exploit weak origin validation in `postMessage` handlers to inject malicious data or steal secrets.

@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # IDOR - Insecure Direct Object Reference
 
 ## TL;DR

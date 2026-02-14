@@ -1,3 +1,9 @@
+---
+tags:
+  - critical
+  - server-side
+---
+
 # gRPC Security
 
 ## TL;DR

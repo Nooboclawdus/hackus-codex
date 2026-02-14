@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - client-side
+---
+
 # Finding XSS
 
 ## Where to Look

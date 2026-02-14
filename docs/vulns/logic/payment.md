@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # Payment & Pricing Bypass
 
 Manipulate payment flows via price tampering, negative quantities, order ID swapping, or state machine abuse.

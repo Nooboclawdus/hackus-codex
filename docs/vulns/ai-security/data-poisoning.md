@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # Data Poisoning
 
 Corrupting AI models by manipulating their training data. Unlike prompt injection (runtime), this attacks the model itself.

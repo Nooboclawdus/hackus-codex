@@ -1,3 +1,8 @@
+---
+tags:
+  - critical
+---
+
 # OAuth → Account Takeover
 
 From OAuth misconfiguration to complete account compromise.

@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # FIDO2 / WebAuthn / Passkeys Attacks
 
 ## TL;DR

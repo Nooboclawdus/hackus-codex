@@ -1,3 +1,9 @@
+---
+tags:
+  - medium
+  - client-side
+---
+
 # Reverse Tab Nabbing
 
 When a link opens with `target="_blank"` without `rel="noopener"`, the new page can access `window.opener` and redirect the original tab to a phishing page.

@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # AI Security
 
 Vulnerabilities in AI/LLM-powered applications. This is the **new frontier** of bug bounty — prompt injection is the new XSS.

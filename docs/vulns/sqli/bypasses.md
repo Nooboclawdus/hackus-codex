@@ -1,3 +1,9 @@
+---
+tags:
+  - critical
+  - server-side
+---
+
 # SQLi WAF Bypass Techniques
 
 ## Whitespace Alternatives

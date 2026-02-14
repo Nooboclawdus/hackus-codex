@@ -1,3 +1,9 @@
+---
+tags:
+  - critical
+  - server-side
+---
+
 # API Security Attacks
 
 ## TL;DR

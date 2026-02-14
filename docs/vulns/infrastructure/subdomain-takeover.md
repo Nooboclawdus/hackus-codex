@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - infra
+---
+
 # Subdomain Takeover
 
 A DNS record points to a resource that no longer exists. Claim the resource to control the subdomain, enabling cookie theft, phishing, and XSS on the parent domain.

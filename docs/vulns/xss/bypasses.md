@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - client-side
+---
+
 # XSS Bypasses
 
 Your payload is blocked. Here's how to get around it.

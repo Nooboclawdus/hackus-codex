@@ -1,3 +1,9 @@
+---
+tags:
+  - critical
+  - server-side
+---
+
 # SSRF Escalation
 
 You have SSRF. Now maximize impact.

@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - client-side
+---
+
 # XSS - Cross-Site Scripting
 
 ## TL;DR

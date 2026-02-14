@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # OAuth Vulnerabilities
 
 ## TL;DR

@@ -1,3 +1,9 @@
+---
+tags:
+  - critical
+  - server-side
+---
+
 # NoSQL Injection
 
 ## TL;DR

@@ -1,76 +1,77 @@
+---
+tags:
+  - client-side
+---
+
 # Client-Side Vulnerabilities
 
-Attacks that execute in the victim's browser, exploiting trust relationships and client-side security mechanisms.
+Attacks executed in the victim's browser: XSS, DOM manipulation, and browser-based exploitation.
 
-## Categories
+<div class="grid cards" markdown>
 
-| Vulnerability | Description | Impact |
-|--------------|-------------|--------|
-| [CSRF](csrf.md) | Force authenticated actions | State changes, data modification |
-| [Clickjacking](clickjacking.md) | UI redressing attacks | Unintended clicks, actions |
-| [PostMessage](postmessage.md) | Cross-origin messaging flaws | XSS, data theft |
-| [Prototype Pollution](prototype-pollution.md) | Object prototype injection | XSS, auth bypass |
+-   :material-script:{ .lg .middle } **XSS**
 
-## Quick Detection
+    ---
 
-### CSRF
-```bash
-# Check for missing tokens
-curl -X POST https://target/action -d 'param=value'
-# Look for missing: csrf, token, nonce parameters
-# Check SameSite cookie attribute
-```
+    Execute JavaScript in victim's browser. Steal sessions, deface, pivot.
 
-### Clickjacking
-```bash
-# Check framing headers
-curl -sI https://target | grep -iE "x-frame|frame-ancestors"
-```
+    [:octicons-arrow-right-24: XSS Guide](../xss/index.md)
 
-### PostMessage
-```javascript
-// DevTools console
-getEventListeners(window).message
-// Search JS for: addEventListener("message"
-```
+-   :material-shield-off:{ .lg .middle } **CSRF**
 
-### Prototype Pollution
-```
-https://target/?__proto__[test]=polluted
-// Console: console.log({}.test)
-```
+    ---
 
-## Common Patterns
+    Force authenticated actions. State-changing requests without consent.
 
-### Trust Boundaries
+    [:octicons-arrow-right-24: CSRF Guide](csrf.md)
 
-| Attack | Exploits Trust In |
-|--------|------------------|
-| CSRF | Session cookies sent automatically |
-| Clickjacking | UI appearance vs reality |
-| PostMessage | Origin validation |
-| Prototype Pollution | Object property chains |
+-   :material-cursor-default-click:{ .lg .middle } **Clickjacking**
 
-### Browser Security Features
+    ---
 
-| Feature | Protects Against |
-|---------|-----------------|
-| SameSite cookies | CSRF |
-| X-Frame-Options | Clickjacking |
-| CSP frame-ancestors | Clickjacking |
-| Object.freeze() | Prototype pollution |
+    UI redressing. Trick users into clicking hidden elements.
 
-## Testing Approach
+    [:octicons-arrow-right-24: Clickjacking](clickjacking.md)
 
-1. **Identify sensitive actions** - Password change, email change, transfers
-2. **Check protections** - Tokens, headers, origin validation
-3. **Test bypasses** - Method switching, token removal, origin tricks
-4. **Chain vulnerabilities** - CSRF + XSS, Clickjacking + Self-XSS
+-   :material-message-alert:{ .lg .middle } **postMessage**
 
-## Tools
+    ---
 
-| Tool | Purpose |
-|------|---------|
-| Caido | Generate CSRF PoC, intercept messages |
-| DOM Invader | Automated client-side testing |
-| Browser DevTools | Event listeners, postMessage inspection |
+    Cross-origin messaging vulnerabilities. Origin bypass, data theft.
+
+    [:octicons-arrow-right-24: postMessage](postmessage.md)
+
+-   :material-code-braces:{ .lg .middle } **Prototype Pollution**
+
+    ---
+
+    Pollute Object.prototype. Gadgets to XSS/RCE.
+
+    [:octicons-arrow-right-24: Prototype Pollution](prototype-pollution.md)
+
+-   :material-xml:{ .lg .middle } **DOM Clobbering**
+
+    ---
+
+    Override DOM properties with HTML. Break security checks.
+
+    [:octicons-arrow-right-24: DOM Clobbering](dom-clobbering.md)
+
+</div>
+
+## Quick Tests
+
+| Vuln | Test | Where |
+|------|------|-------|
+| XSS | `<img src=x onerror=alert(1)>` | Any input reflected |
+| CSRF | Remove/modify CSRF token | State-changing forms |
+| Clickjacking | `X-Frame-Options` missing | Sensitive pages |
+| postMessage | `postMessage('test','*')` | Cross-origin frames |
+
+## Entry Points
+
+- **Reflected params**: URL params rendered in page
+- **Stored inputs**: Comments, profiles, messages
+- **DOM sinks**: `innerHTML`, `eval()`, `document.write()`
+- **Event handlers**: `onclick`, `onerror`, `onload`
+- **URL fragments**: `location.hash` processing

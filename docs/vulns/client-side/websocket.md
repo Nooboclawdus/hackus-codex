@@ -1,3 +1,9 @@
+---
+tags:
+  - medium
+  - client-side
+---
+
 # WebSocket Security
 
 WebSocket vulnerabilities bypass traditional HTTP security: authentication at handshake without per-message validation, CSWSH (Cross-Site WebSocket Hijacking) via weak origin checks, and thread-local auth pollution.

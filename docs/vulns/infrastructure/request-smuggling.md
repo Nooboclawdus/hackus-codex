@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - infra
+---
+
 # HTTP Request Smuggling
 
 Desync front-end/back-end parsing of Content-Length vs Transfer-Encoding headers to inject requests.

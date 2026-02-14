@@ -1,3 +1,9 @@
+---
+tags:
+  - medium
+  - client-side
+---
+
 # DOM Clobbering
 
 ## TL;DR

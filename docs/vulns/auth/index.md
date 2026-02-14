@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # Authentication Vulnerabilities
 
 Authentication flaws allow attackers to bypass login mechanisms, hijack sessions, and impersonate users.

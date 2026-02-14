@@ -1,3 +1,8 @@
+---
+tags:
+  - critical
+---
+
 # SSRF → RCE
 
 From making server requests to executing code.

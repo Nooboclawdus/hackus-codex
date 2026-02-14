@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # Password Reset Vulnerabilities
 
 Password reset flaws enable account takeover through token leakage, weak token generation, host header injection, and email parameter manipulation.

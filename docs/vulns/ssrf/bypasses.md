@@ -1,3 +1,9 @@
+---
+tags:
+  - critical
+  - server-side
+---
+
 # SSRF Bypasses
 
 Bypass SSRF protections via IP encoding, DNS tricks, URL parser confusion, or redirects.

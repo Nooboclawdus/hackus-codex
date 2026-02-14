@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # Finding IDOR
 
 ## Where to Look

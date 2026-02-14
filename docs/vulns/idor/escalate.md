@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # IDOR Escalation
 
 You have IDOR. Now maximize the impact for your report.

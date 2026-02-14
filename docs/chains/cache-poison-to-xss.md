@@ -1,3 +1,8 @@
+---
+tags:
+  - critical
+---
+
 # Cache Poisoning → XSS
 
 From cache manipulation to stored cross-site scripting affecting all users.

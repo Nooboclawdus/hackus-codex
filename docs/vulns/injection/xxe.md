@@ -1,3 +1,9 @@
+---
+tags:
+  - critical
+  - server-side
+---
+
 # XML External Entity (XXE)
 
 ## TL;DR

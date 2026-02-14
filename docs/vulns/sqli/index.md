@@ -1,3 +1,9 @@
+---
+tags:
+  - critical
+  - server-side
+---
+
 # SQL Injection (SQLi)
 
 SQL Injection allows attackers to manipulate database queries by injecting malicious SQL syntax into application inputs.

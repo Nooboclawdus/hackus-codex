@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - client-side
+---
+
 # XSS Escalation
 
 You have XSS execution. Now maximize the impact for your report.

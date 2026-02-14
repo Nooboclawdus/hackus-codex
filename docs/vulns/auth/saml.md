@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # SAML Vulnerabilities
 
 SAML attacks exploit XML signature verification flaws, enabling authentication bypass through signature wrapping, XXE, certificate forgery, and assertion manipulation.

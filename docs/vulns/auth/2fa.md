@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # 2FA/MFA Bypass Techniques
 
 ## TL;DR

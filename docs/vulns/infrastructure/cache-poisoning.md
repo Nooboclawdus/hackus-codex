@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - infra
+---
+
 # Cache Poisoning & Cache Deception
 
 **Poisoning:** Store malicious response in cache, serve to other users.  

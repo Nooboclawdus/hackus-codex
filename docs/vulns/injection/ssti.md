@@ -1,3 +1,9 @@
+---
+tags:
+  - critical
+  - server-side
+---
+
 # Server-Side Template Injection (SSTI)
 
 ## TL;DR

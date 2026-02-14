@@ -1,3 +1,9 @@
+---
+tags:
+  - medium
+  - client-side
+---
+
 # Clickjacking
 
 Trick users into clicking hidden elements by overlaying transparent iframes on deceptive UI.

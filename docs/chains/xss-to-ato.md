@@ -1,3 +1,8 @@
+---
+tags:
+  - critical
+---
+
 # XSS → Account Takeover
 
 Turn XSS into complete account compromise.

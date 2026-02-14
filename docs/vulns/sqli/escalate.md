@@ -1,3 +1,9 @@
+---
+tags:
+  - critical
+  - server-side
+---
+
 # SQLi Escalation
 
 ## Data Exfiltration

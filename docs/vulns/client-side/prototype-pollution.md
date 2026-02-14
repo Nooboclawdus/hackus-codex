@@ -1,3 +1,9 @@
+---
+tags:
+  - medium
+  - client-side
+---
+
 # Client-Side Prototype Pollution
 
 Inject properties into JavaScript object prototypes to modify application behavior or achieve XSS.

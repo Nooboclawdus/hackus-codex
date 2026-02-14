@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # Session & Cookie Security
 
 ## TL;DR

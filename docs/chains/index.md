@@ -1,3 +1,8 @@
+---
+tags:
+  - critical
+---
+
 # Exploit Chains
 
 Single bugs are good. Chains are better.

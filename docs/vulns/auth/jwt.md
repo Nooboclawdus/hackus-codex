@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # JWT Vulnerabilities
 
 ## TL;DR

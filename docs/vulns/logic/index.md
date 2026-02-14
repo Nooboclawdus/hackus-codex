@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # Logic Vulnerabilities
 
 Business logic flaws occur when application workflows can be exploited to achieve unintended outcomes. Unlike technical vulnerabilities, these exploit the *design* rather than the implementation.

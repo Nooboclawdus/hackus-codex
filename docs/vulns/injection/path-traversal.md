@@ -1,3 +1,9 @@
+---
+tags:
+  - critical
+  - server-side
+---
+
 # Path Traversal / LFI
 
 ## TL;DR

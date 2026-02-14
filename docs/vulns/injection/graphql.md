@@ -1,3 +1,9 @@
+---
+tags:
+  - critical
+  - server-side
+---
+
 # GraphQL Attacks
 
 ## TL;DR

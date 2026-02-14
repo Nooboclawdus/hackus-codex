@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # CAPTCHA Bypass
 
 Bypass CAPTCHAs via parameter omission, value reuse, OCR automation, or third-party solving services.

@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - infra
+---
+
 # Misconfiguration & Information Disclosure
 
 Misconfigurations expose sensitive data through debug endpoints, backup files, admin panels, and CORS issues.

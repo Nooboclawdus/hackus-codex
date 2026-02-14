@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - infra
+---
+
 # Infrastructure Vulnerabilities
 
 Attacks targeting web infrastructure components: CDNs, caches, proxies, DNS, and server configurations.

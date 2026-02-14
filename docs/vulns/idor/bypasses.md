@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # IDOR Bypasses
 
 Your ID swap is blocked. Here's how to get around it.

@@ -1,3 +1,9 @@
+---
+tags:
+  - high
+  - logic
+---
+
 # Prompt Injection
 
 The **#1 vulnerability** in LLM applications. Think of it as XSS for AI systems.

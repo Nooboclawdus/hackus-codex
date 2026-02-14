@@ -1,3 +1,9 @@
+---
+tags:
+  - medium
+  - client-side
+---
+
 # Cross-Site Request Forgery (CSRF)
 
 Force an authenticated user to execute unwanted actions on a web application where they're currently authenticated. In 2024+, SameSite=Lax is default, but numerous bypasses exist.

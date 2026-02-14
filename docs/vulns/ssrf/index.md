@@ -1,3 +1,9 @@
+---
+tags:
+  - critical
+  - server-side
+---
+
 # SSRF - Server-Side Request Forgery
 
 ## TL;DR

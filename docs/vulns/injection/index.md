@@ -1,3 +1,9 @@
+---
+tags:
+  - critical
+  - server-side
+---
+
 # Injection Vulnerabilities
 
 Injection attacks exploit improper input handling to execute unintended commands, queries, or code on the server side.

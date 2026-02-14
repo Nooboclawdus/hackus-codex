@@ -1,3 +1,9 @@
+---
+tags:
+  - medium
+  - client-side
+---
+
 # Open Redirect
 
 Redirect users to external domains via a controlled parameter. Alone it's low severity, but when chained with OAuth or SSRF, it becomes critical.
