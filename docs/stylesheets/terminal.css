@@ -38,18 +38,36 @@
   --md-accent-fg-color: var(--hc-green);
 }
 
-/* Header */
+/* Header - keep light even in dark mode for visibility */
 .md-header {
-  background: var(--hc-bg-card);
+  background: #ffffff;
+  color: #1a1a1a;
 }
 
-/* Tabs bar - dark background, readable text */
+.md-header__title {
+  color: #1a1a1a;
+}
+
+.md-header__button {
+  color: #1a1a1a;
+}
+
+.md-search__input {
+  background: #f0f0f0;
+  color: #1a1a1a;
+}
+
+.md-search__input::placeholder {
+  color: #666;
+}
+
+/* Tabs bar - light background */
 .md-tabs {
-  background: var(--hc-bg-card);
+  background: #f5f5f5;
 }
 
 .md-tabs__link {
-  color: var(--hc-text-muted);
+  color: #555;
 }
 
 .md-tabs__link--active,
