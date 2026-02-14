@@ -139,9 +139,11 @@ body, .md-typeset {
   background: var(--term-bg-card);
 }
 
-/* Navigation */
+/* Navigation - Improved readability */
 .md-nav__link {
   color: var(--term-text) !important;
+  font-size: 0.82rem !important;
+  padding: 0.5em 0.6em !important;
 }
 
 .md-nav__link:hover,
@@ -152,6 +154,49 @@ body, .md-typeset {
 .md-nav__item--active > .md-nav__link {
   color: var(--term-green) !important;
   font-weight: 600;
+}
+
+/* Section headers (Server-Side, Client-Side, etc.) */
+.md-nav--primary > .md-nav__list > .md-nav__item > .md-nav__link,
+.md-nav__item--nested > .md-nav__link {
+  font-size: 0.9rem !important;
+  font-weight: 700 !important;
+  color: var(--term-green) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 1rem;
+  padding: 0.6em 0.6em !important;
+  border-left: 3px solid var(--term-green);
+  background: rgba(0, 255, 149, 0.05);
+}
+
+/* First section header - no top margin */
+.md-nav--primary > .md-nav__list > .md-nav__item:first-child > .md-nav__link {
+  margin-top: 0;
+}
+
+/* Sub-items under sections */
+.md-nav--primary .md-nav--secondary .md-nav__link,
+.md-nav__item--nested .md-nav__list .md-nav__link {
+  font-size: 0.8rem !important;
+  font-weight: 400 !important;
+  text-transform: none;
+  letter-spacing: normal;
+  border-left: none;
+  background: transparent;
+  margin-top: 0;
+  padding-left: 1.2em !important;
+  color: var(--term-text) !important;
+}
+
+.md-nav__item--nested .md-nav__list .md-nav__link:hover {
+  color: var(--term-green) !important;
+  background: rgba(0, 255, 149, 0.08);
+}
+
+/* Spacing between nav groups */
+.md-nav__item--nested {
+  margin-bottom: 0.5rem;
 }
 
 /* Sidebar */
