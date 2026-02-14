@@ -117,6 +117,7 @@ nav:
       - SSTI: vulns/injection/ssti.md
       - NoSQL Injection: vulns/injection/nosql.md
       - GraphQL: vulns/injection/graphql.md
+      - gRPC: vulns/injection/grpc.md
       - Path Traversal: vulns/injection/path-traversal.md
       - File Upload: vulns/injection/file-upload.md
       - API Attacks: vulns/injection/api.md
@@ -134,6 +135,7 @@ nav:
       - vulns/auth/index.md
       - OAuth Attacks: vulns/auth/oauth.md
       - JWT Attacks: vulns/auth/jwt.md
+      - Passkeys/FIDO2: vulns/auth/passkeys.md
       - 2FA Bypass: vulns/auth/2fa.md
       - Session Attacks: vulns/auth/session.md
       - Password Reset: vulns/auth/password-reset.md
@@ -149,6 +151,7 @@ nav:
       - vulns/client-side/index.md
       - CSRF: vulns/client-side/csrf.md
       - Clickjacking: vulns/client-side/clickjacking.md
+      - DOM Clobbering: vulns/client-side/dom-clobbering.md
       - postMessage: vulns/client-side/postmessage.md
       - Prototype Pollution: vulns/client-side/prototype-pollution.md
       - Tab Nabbing: vulns/client-side/tab-nabbing.md
