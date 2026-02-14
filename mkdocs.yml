@@ -159,6 +159,11 @@ nav:
       - Cache Poisoning: vulns/infrastructure/cache-poisoning.md
       - Request Smuggling: vulns/infrastructure/request-smuggling.md
       - Misconfigurations: vulns/infrastructure/misconfig.md
+    - AI Security:
+      - vulns/ai-security/index.md
+      - Prompt Injection: vulns/ai-security/prompt-injection.md
+      - Agent Hijacking: vulns/ai-security/agent-hijacking.md
+      - Data Poisoning: vulns/ai-security/data-poisoning.md
   - Chains:
     - chains/index.md
     - XSS to ATO: chains/xss-to-ato.md
