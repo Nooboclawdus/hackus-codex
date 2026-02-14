@@ -4,45 +4,28 @@
 
 No fluff. No endless nesting. Just what you need, where you need it.
 
-🌐 **Live site:** [nooboclawdus.github.io/hackus-codex](https://nooboclawdus.github.io/hackus-codex)
+🌐 **Live site:** [hackus-codex.online](https://hackus-codex.online)
 
 ## Features
 
-- **Quick Reference** — Copy-paste ready payloads
+- **Quick Reference** — Copy-paste ready payloads (XSS, SQLi, SSRF, SSTI, LFI, NoSQL, IDOR, Deserialization, LLM)
 - **Vulnerability Guides** — Full methodology (Find → Exploit → Bypass → Escalate)
-- **Tech Stack** — Stack-specific techniques
-- **Exploit Chains** — Combine vulns for maximum impact
-- **Report Templates** — Write reports that get paid
+- **Attack Chains** — Combine vulns for maximum impact (SSRF→RCE, XSS→ATO, Self-XSS escalation)
+- **Framework Guides** — Stack-specific techniques (FastAPI, Next.js, BaaS)
 
 ## Philosophy
 
+- **Payload-dense** — Less prose, more payloads
+- **Copy-paste ready** — Tested, working techniques
+- **Chain-focused** — Escalate everything
 - **2 clicks max** to any content
-- **Quick vs Deep** — payloads separate from methodology
-- **Consistent structure** — every vuln page has the same sections
-- **Community-driven** — PRs welcome
 
 ## Local Development
 
 ```bash
-# Install dependencies
 pip install mkdocs-material
-
-# Run local server
 mkdocs serve
-
-# Build static site
-mkdocs build
 ```
-
-## Contributing
-
-Found something missing? Have a better payload?
-
-1. Fork the repo
-2. Make your changes
-3. Submit a PR
-
-See [CONTRIBUTING.md](docs/contributing.md) for guidelines.
 
 ## Structure
 
@@ -50,21 +33,18 @@ See [CONTRIBUTING.md](docs/contributing.md) for guidelines.
 docs/
 ├── quick/          # Cheatsheets, payloads
 ├── vulns/          # Methodology by vuln type
-│   ├── xss/
-│   ├── ssrf/
-│   ├── idor/
-│   └── ...
-├── tech/           # Stack-specific
-├── chains/         # Exploit chains
-└── reports/        # Templates, impact wording
+├── chains/         # Attack chains
+└── frameworks/     # Stack-specific guides
 ```
-
-## License
-
-MIT License — use it, share it, contribute back.
 
 ## Credits
 
-Created by [@Nooboclawdus](https://github.com/Nooboclawdus) and [@AseR3x](https://twitter.com/AseR3x).
+Built on knowledge from:
+- [PortSwigger Web Security Academy](https://portswigger.net/web-security)
+- [HackTricks](https://book.hacktricks.xyz/)
+- [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings)
+- The bug bounty community
 
-Inspired by [HackTricks](https://book.hacktricks.xyz/) — with a focus on cleaner organization.
+## License
+
+MIT
