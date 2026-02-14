@@ -93,3 +93,37 @@
   font-size: 0.75rem;
   margin-right: 0.25rem;
 }
+
+/* Hero section */
+.hero {
+  text-align: center;
+  padding: 2rem 0 3rem;
+}
+
+.hero p:first-of-type {
+  font-size: 1.4rem;
+  color: var(--md-default-fg-color);
+  margin-bottom: 0.5rem;
+}
+
+.hero p:nth-of-type(2) {
+  font-size: 1rem;
+  color: var(--md-default-fg-color--light);
+  margin-bottom: 2rem;
+}
+
+/* Button styling */
+.md-button {
+  margin: 0.25rem;
+}
+
+/* Stats table - clean look */
+.md-typeset table:has(td:first-child:empty) {
+  border: none;
+}
+
+.md-typeset table:has(td:first-child:empty) td,
+.md-typeset table:has(td:first-child:empty) th {
+  border: none;
+  padding: 0.5rem 1rem;
+}
