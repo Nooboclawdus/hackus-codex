@@ -38,9 +38,23 @@
   --md-accent-fg-color: var(--hc-green);
 }
 
-/* Header - subtle */
+/* Header */
 .md-header {
   background: var(--hc-bg-card);
+}
+
+/* Tabs bar - dark background, readable text */
+.md-tabs {
+  background: var(--hc-bg-card);
+}
+
+.md-tabs__link {
+  color: var(--hc-text-muted);
+}
+
+.md-tabs__link--active,
+.md-tabs__link:hover {
+  color: var(--hc-green);
 }
 
 /* Code - monospace with subtle styling */
