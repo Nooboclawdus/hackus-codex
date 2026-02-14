@@ -23,8 +23,6 @@ theme:
     text: JetBrains Mono
     code: JetBrains Mono
 
-extra_css:
-  - stylesheets/terminal.css
   features:
     - navigation.instant
     - navigation.tracking
@@ -47,6 +45,9 @@ extra_css:
       bug: material/bug
       example: material/code-tags
       quote: material/format-quote-close
+
+extra_css:
+  - stylesheets/terminal.css
 
 plugins:
   - search:
