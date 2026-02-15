@@ -57,6 +57,14 @@ Attacks executed in the victim's browser: XSS, DOM manipulation, and browser-bas
 
     [:octicons-arrow-right-24: DOM Clobbering](dom-clobbering.md)
 
+-   :material-language-javascript:{ .lg .middle } **JS Analysis**
+
+    ---
+
+    Extract endpoints, secrets, and sinks from JavaScript files.
+
+    [:octicons-arrow-right-24: JS Analysis](js-analysis.md)
+
 </div>
 
 ## Quick Tests
