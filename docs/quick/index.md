@@ -13,6 +13,7 @@ Copy-paste ready payloads and one-liners. No explanation, just the goods.
 | [Auth Payloads](auth.md) | OAuth, JWT, 2FA/MFA bypasses |
 | [LLM Payloads](llm.md) | Prompt injection, jailbreaks, AI bypasses |
 | [Bypasses](bypasses.md) | WAF bypasses, filter evasion |
+| [Recon](recon.md) | Full recon methodology, tools, workflow |
 
 ## One-Liners
 
