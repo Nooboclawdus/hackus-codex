@@ -20,6 +20,8 @@ Injection attacks exploit improper input handling to execute unintended commands
 | [API Attacks](api.md) | REST/API endpoints | Auth bypass, rate limit bypass |
 | [Path Traversal](path-traversal.md) | File system | Arbitrary file read |
 | [File Upload](file-upload.md) | Upload handlers | RCE, XSS |
+| [CRLF Injection](crlf.md) | HTTP responses | XSS, cache poison |
+| [gRPC](grpc.md) | gRPC services | Auth bypass, data leak |
 
 ## Quick Detection
 

@@ -46,6 +46,12 @@ Attacks targeting the server: injection, SSRF, file operations, and backend logi
 | SSTI | `{{7*7}}` in templates | 🔴 Critical |
 | Path Traversal | `../../../etc/passwd` | 🟠 High |
 
+## Additional Techniques
+
+| Technique | Description |
+|-----------|-------------|
+| [Host Header Attacks](host-header.md) | Cache poisoning, password reset hijacking, SSRF |
+
 ## Common Entry Points
 
 - **URL parameters**: `url=`, `path=`, `file=`, `redirect=`
