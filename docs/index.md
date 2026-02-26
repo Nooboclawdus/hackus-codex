@@ -46,7 +46,7 @@ Curated payloads, attack chains, and methodologies — built for hunters who shi
 
     ---
 
-    Platform-specific security guides for FastAPI, Next.js, and BaaS (Supabase, Firebase).
+    Platform-specific security guides for Symfony, Drupal, WordPress, FastAPI, Next.js, and BaaS.
 
     [:octicons-arrow-right-24: Framework guides](frameworks/index.md)
 
@@ -58,9 +58,10 @@ Curated payloads, attack chains, and methodologies — built for hunters who shi
 
 | | |
 |---|---|
-| **12** Quick Ref sheets | **100+** Total pages |
-| **10** Attack Chains | **9** Template engines (SSTI) |
-| **6** Vuln categories | **Real** H1 report references |
+| | |
+| **13** Quick Ref sheets | **109** Total pages |
+| **10** Attack Chains | **6** Framework guides |
+| **7** Vuln categories | **Real** report references |
 
 ---
 
