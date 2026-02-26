@@ -12,6 +12,9 @@ Modern frameworks introduce their own attack surfaces beyond standard web vulner
 
 - **[FastAPI](fastapi.md)** — Python async framework with dependency injection, Pydantic validation, and OpenAPI
 - **[Next.js](nextjs.md)** — React SSR framework with middleware, server actions, and edge runtime
+- **[Symfony](symfony.md)** — PHP framework with FOSJsRouting, Twig SSTI, profiler, and debug endpoints
+- **[Drupal](drupal.md)** — PHP CMS with JSON:API, REST, module enumeration, and file entity exposure
+- **[WordPress](wordpress.md)** — PHP CMS with REST API, XML-RPC, plugin/theme vulns, and user enumeration
 - **[BaaS Platforms](baas.md)** — Supabase & Firebase backend-as-a-service security rules
 
 ---
@@ -88,6 +91,9 @@ admin.firestore().collection('users').get()  // Bypasses rules
 |-----------|-----------|
 | **FastAPI** | `"detail":` in errors, `/docs`, `/openapi.json`, `uvicorn` headers |
 | **Next.js** | `_next/static/`, `__NEXT_DATA__` in HTML, `x-nextjs-cache` header |
+| **Symfony** | `X-Debug-Token`, `/_profiler/`, `/_wdt/`, `sf-toolbar`, Twig error pages |
+| **Drupal** | `X-Generator: Drupal`, `/core/CHANGELOG.txt`, `drupal.js`, `/jsonapi/` |
+| **WordPress** | `wp-content/`, `wp-json/`, `xmlrpc.php`, `X-Powered-By: WP Engine` |
 | **Supabase** | `/rest/v1/`, `postgrest` headers, `sb-` prefixed cookies |
 | **Firebase** | `firestore.googleapis.com`, `__/auth/`, Firebase SDK in JS |
 
@@ -104,6 +110,21 @@ admin.firestore().collection('users').get()  // Bypasses rules
 - Extract `__NEXT_DATA__` from page source for leaked props
 - Download source maps: `/_next/static/chunks/*.js.map`
 - Path normalization bypass: `/api//admin`
+
+**Symfony:**
+- Access `/_profiler/` and `/_wdt/` in production
+- Check `/js/routing` or `/api/routes` for FOSJsRouting route dump
+- Test Twig SSTI: `{{7*7}}` in user-controlled template variables
+
+**Drupal:**
+- Enumerate users via `/jsonapi/user/user`
+- Check `/core/CHANGELOG.txt` and `/core/install.php` for version
+- Test REST endpoints: `/node/1?_format=json`
+
+**WordPress:**
+- Enumerate users: `/wp-json/wp/v2/users`
+- Test XML-RPC: `POST /xmlrpc.php` with `system.listMethods`
+- Check plugin versions: `/wp-content/plugins/*/readme.txt`
 
 **Supabase:**
 - Test CRUD operations separately (SELECT ≠ UPDATE policies)
@@ -146,6 +167,9 @@ Pick your target framework and dive deep:
 
 - **[FastAPI →](fastapi.md)** Dependency injection, JWT flaws, Pydantic bypasses
 - **[Next.js →](nextjs.md)** Middleware bypass, server actions, cache poisoning
+- **[Symfony →](symfony.md)** Route disclosure, Twig SSTI, profiler data leakage
+- **[Drupal →](drupal.md)** JSON:API exposure, module enumeration, file entity attacks
+- **[WordPress →](wordpress.md)** Plugin/theme vulns, XML-RPC, REST API, user enumeration
 - **[BaaS →](baas.md)** RLS gaps, security rules, service key leaks
 
 ---

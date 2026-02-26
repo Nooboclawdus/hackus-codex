@@ -12,6 +12,7 @@ Copy-paste ready payloads and one-liners. No explanation, just the goods.
 | [IDOR Payloads](idor.md) | ID manipulation, UUID attacks, parameter pollution |
 | [Auth Payloads](auth.md) | OAuth, JWT, 2FA/MFA bypasses |
 | [LLM Payloads](llm.md) | Prompt injection, jailbreaks, AI bypasses |
+| [AI Security](ai-security.md) | Agent hijacking, RAG poisoning, MCP/tool abuse, supply chain |
 | [Bypasses](bypasses.md) | WAF bypasses, filter evasion |
 | [Recon](recon.md) | Full recon methodology, tools, workflow |
 
