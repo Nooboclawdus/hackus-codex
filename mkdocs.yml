@@ -117,6 +117,7 @@ nav:
     - IDOR: quick/idor.md
     - Auth/JWT/OAuth: quick/auth.md
     - LLM/AI: quick/llm.md
+    - AI Security: quick/ai-security.md
     - Deserialization: quick/deserialization.md
     - Bypasses: quick/bypasses.md
   - 🔥 Vulnerabilities:
@@ -190,6 +191,7 @@ nav:
       - Subdomain Takeover: vulns/infrastructure/subdomain-takeover.md
       - Cache Poisoning: vulns/infrastructure/cache-poisoning.md
       - Request Smuggling: vulns/infrastructure/request-smuggling.md
+      - WAF Bypass: vulns/infrastructure/waf-bypass.md
       - Misconfigurations: vulns/infrastructure/misconfig.md
     - AI Security:
       - vulns/ai-security/index.md
@@ -212,5 +214,8 @@ nav:
     - frameworks/index.md
     - FastAPI: frameworks/fastapi.md
     - Next.js: frameworks/nextjs.md
+    - Symfony: frameworks/symfony.md
+    - Drupal: frameworks/drupal.md
+    - WordPress: frameworks/wordpress.md
     - BaaS: frameworks/baas.md
   - 🏷️ Tags: tags.md

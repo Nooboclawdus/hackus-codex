@@ -114,8 +114,8 @@ payloads = [
 ### Bing Chat (2023)
 Researchers extracted internal codename "Sydney" and system prompts via prompt injection.
 
-### Claude Code Incident (2025)
-Chinese APT weaponized Claude Code by fragmenting malicious tasks into innocuous requests, achieving autonomous reconnaissance and data exfiltration.
+### Claude Code Incident (Sept 2025)
+Chinese state-sponsored actors weaponized Claude Code by fragmenting malicious tasks into innocuous requests, achieving autonomous reconnaissance and data exfiltration across ~30 targets (80-90% autonomous execution). [Source: Anthropic](https://www.anthropic.com/news/disrupting-AI-espionage)
 
 ### Google Gemini Memory (2025)
 Indirect injection via documents manipulated Gemini's long-term memory.

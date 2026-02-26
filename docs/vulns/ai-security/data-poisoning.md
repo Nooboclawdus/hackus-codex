@@ -14,7 +14,7 @@ Corrupting AI models by manipulating their training data. Unlike prompt injectio
 
 **Cost to attack:**
 - ~$60 to corrupt major training datasets
-- 250 documents (0.00016% of training tokens) to backdoor ANY LLM
+- 250 documents (0.00016% of training tokens) to backdoor ANY LLM — [Anthropic + UK AI Security Institute + Alan Turing Institute](https://www.anthropic.com/research/small-samples-poison)
 
 ## Attack Types
 

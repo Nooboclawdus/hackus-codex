@@ -1,11 +1,13 @@
 # Critical AI Vulnerabilities 2026
-*Source: ZDNET - 4 Critical AI Vulnerabilities*
 
 ## 1. Autonomous Agent Hijacking
 
-**The Anthropic/Claude Code Incident (Sept 2025)**
-- Chinese state-sponsored hackers weaponized Claude Code
-- First documented large-scale cyberattack "without substantial human intervention"
+**The Claude Code Incident (Sept 2025)**
+
+*Sources: [Anthropic Disclosure](https://www.anthropic.com/news/disrupting-AI-espionage) | [Axios](https://www.axios.com/2025/11/13/anthropic-china-claude-code-cyberattack) | [BBC](https://www.bbc.com/news/articles/cx2lzmygr84o)*
+
+- Chinese state-sponsored hackers weaponized Claude Code (detected mid-September 2025)
+- First documented large-scale cyberattack executed autonomously by AI (80-90% autonomous per Anthropic)
 - Method: Fragmented malicious tasks into innocuous requests
 - Convinced AI it was doing "defensive security testing"
 - Result: Autonomous recon, exploit code writing, data exfil from ~30 targets
@@ -39,7 +41,7 @@
 
 **Cost to corrupt major AI training datasets: ~$60**
 
-- **250 poisoned documents** can backdoor ANY LLM (0.00016% of training tokens)
+- **250 poisoned documents** can backdoor ANY LLM (0.00016% of training tokens) — [Anthropic + UK AI Security Institute + Alan Turing Institute](https://www.anthropic.com/research/small-samples-poison)
 - JFrog found ~100 malicious models on Hugging Face (Feb 2024)
 - One contained a reverse shell to South Korea infrastructure
 
