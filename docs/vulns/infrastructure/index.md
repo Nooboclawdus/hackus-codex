@@ -15,6 +15,7 @@ Attacks targeting web infrastructure components: CDNs, caches, proxies, DNS, and
 | [Subdomain Takeover](subdomain-takeover.md) | Claim abandoned third-party services | Phishing, cookie theft, XSS |
 | [Cache Poisoning](cache-poisoning.md) | Store malicious responses in cache | XSS to all users, data theft |
 | [Request Smuggling](request-smuggling.md) | Desync front-end/back-end parsing | Request hijacking, bypass security |
+| [WAF Bypass](waf-bypass.md) | Evade Web Application Firewalls | Access blocked endpoints, deliver payloads |
 
 ## Quick Detection
 
@@ -46,6 +47,18 @@ Transfer-Encoding: chunked
 0
 
 G
+```
+
+### WAF Bypass
+```bash
+# Fingerprint WAF
+wafw00f https://target.com
+
+# URL encoding bypass
+curl "https://target.com/%2e%2e/%2e%2e/etc/passwd"
+
+# Case switching
+curl "https://target.com/admin" -H "X-Original-URL: /ADMIN"
 ```
 
 ## Common Patterns
@@ -84,6 +97,7 @@ Each layer may parse requests differently → exploitable gaps.
 |------|---------|
 | **Param Miner** | Find unkeyed cache inputs |
 | **HTTP Request Smuggler** | Smuggling detection |
+| **wafw00f** | WAF fingerprinting |
 | **nuclei** | Subdomain takeover templates |
 | **Subdominator** | Modern takeover scanner |
 
@@ -97,6 +111,9 @@ Single request poisons response for all users.
 
 ### Request Smuggling → Request Hijacking
 Steal other users' requests, bypass WAF.
+
+### WAF Bypass → Full Exploitation
+Once WAF is bypassed, all blocked payloads (SQLi, XSS, RCE) become viable.
 
 ### Chain: Subdomain Takeover → CSP Bypass → XSS
 If subdomain whitelisted in CSP, takeover enables script injection.
